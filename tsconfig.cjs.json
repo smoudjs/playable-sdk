@@ -1,13 +1,23 @@
 {
   "compilerOptions": {
-    "module": "CommonJS",     // Use CommonJS module format
-    "target": "ESNext",       // Choose the target version (ESNext for modern JS)
-    "moduleResolution": "Node",
-    "outDir": "./dist/cjs",   // Output directory for CJS build
+    "outDir": "dist/cjs",
+    "rootDir": "src",
+    "declaration": false,
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": false,
+    "skipLibCheck": true,
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "strict": true,
-    "declaration": true,
-    "declarationDir": "./dist/cjs/types"
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "strictPropertyInitialization": false,
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "sourceMap": false,
+    "resolveJsonModule": true,
+    "isolatedModules": true
   },
-  "include": ["src/**/*.ts"]
+  "exclude": ["node_modules", "tests", "dist"]
 }
