@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS",     // Use CommonJS module format
+    "target": "ESNext",       // Choose the target version (ESNext for modern JS)
+    "moduleResolution": "Node",
+    "outDir": "./dist/cjs",   // Output directory for CJS build
+    "esModuleInterop": true,
+    "strict": true,
+    "declaration": true,
+    "declarationDir": "./dist/cjs/types"
+  },
+  "include": ["src/**/*.ts"]
+}
