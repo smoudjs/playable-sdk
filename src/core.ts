@@ -291,10 +291,10 @@ class sdk {
   static volume: number = 1;
   static interactions: number = 0;
 
-  static init(callback: InitCallbackType): void {
+  static init(callback?: InitCallbackType): void {
     if (isSDKInitialized) return;
     ensureProtocol();
-    initCallback = callback;
+    if (callback) initCallback = callback;
 
     if ('mraid' === AD_PROTOCOL && isMraid()) {
       if (mraid.getState() !== 'ready' && 'adcolony' !== AD_NETWORK) {
