@@ -442,4 +442,4 @@ class sdk {
 }
 
 export { sdk };
-window.plsdk = sdk;
+window.PlayableSDK = sdk;

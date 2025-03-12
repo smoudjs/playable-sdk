@@ -1,10 +1,17 @@
 {
   "name": "@smoud/playable-sdk",
-  "version": "1.0.3",
+  "version": "1.0.0",
   "description": "It's unified SDK that supports MRAID, Google, Facebook, Vungle, and many more Ad Networks, simplifying playable ad development with a standardized interface for seamless cross-network compatibility.",
-  "main": "dist/cjs/index.js",
+  "main": "dist/index.js",
   "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "browser": "dist/iife/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    "import": "./dist/esm/index.js",
+    "require": "./dist/index.js",
+    "browser": "./dist/iife/index.js",
+    "types": "./dist/index.d.ts"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/smoudjs/playable-sdk.git"
@@ -15,8 +22,7 @@
     "defines.d.ts"
   ],
   "scripts": {
-    "clean": "rimraf dist/",
-    "build": "npm run clean && tsc -p tsconfig.json && tsc -p tsconfig.cjs.json",
+    "build": "npx tsup src/index.ts --format esm,cjs,iife --out-dir dist --legacy-output --dts --clean",
     "test": "jest"
   },
   "author": "Smoud",
@@ -25,8 +31,8 @@
     "@types/jest": "^29.5.14",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
-    "rimraf": "^6.0.1",
     "ts-jest": "^29.2.5",
+    "tsup": "^8.4.0",
     "typescript": "^5.7.2"
   },
   "bugs": {

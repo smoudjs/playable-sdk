@@ -71,7 +71,7 @@ declare const gameStart: Function;
 declare const gameClose: Function;
 
 interface Window {
-  plsdk: any;
+  PlayableSDK: any;
 
   // Mintegral functions
   gameReady: Function;
