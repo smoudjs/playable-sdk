@@ -135,7 +135,7 @@ function startDapiProtocol() {
   if (!isProtocolInitialized) {
     dapi.removeEventListener('ready', startDapiProtocol);
 
-    var isAudioEnabled = !!dapi.getAudioVolume();
+    dapi.getAudioVolume();
     dapi.addEventListener('audioVolumeChange', function (volume) {
       var isAudioEnabled = !!volume;
       if (isAudioEnabled) {
@@ -257,7 +257,7 @@ function registerTouchHandlers(): void {
  */
 class sdk {
   /** Current version of the SDK */
-  static version: string = '1.0.0';
+  static version: string = '1.0.1';
 
   /** Current maximum width of the playable ad container in pixels */
   static maxWidth: number = Math.floor(window.innerWidth);
@@ -289,17 +289,17 @@ class sdk {
   /**
    * Initializes the SDK and sets up protocol-specific handlers.
    * This must be called as earlier as possible.
-   * 
+   *
    * @param callback Optional function called when ad container is ready
    * @example
    * // Basic initialization
    * sdk.init();
-   * 
+   *
    * // Initialization with callback
    * sdk.init((width, height) => {
    *   new App(width, height)
    * });
-   * 
+   *
    * @fires init When initialization starts
    * @fires boot When the ad begins booting
    * @fires ready When Ad Network is ready and playable ad can be initialized
@@ -330,11 +330,11 @@ class sdk {
   /**
    * Starts the playable ad experience.
    * Should be called after all resources are loaded and first frame is rendered.
-   * 
+   *
    * @example
    * // Call just after all resources are preloaded and first frame is rendered
    * sdk.start();
-   * 
+   *
    * @fires start When the playable ad starts
    * @fires resize When the ad container is initially sized
    */
@@ -364,11 +364,11 @@ class sdk {
   /**
    * Marks the playable ad as finished.
    * This triggers network-specific completion handlers.
-   * 
+   *
    * @example
    * // Call when game/experience is complete
    * sdk.finish();
-   * 
+   *
    * @fires finish When the playable ad is marked as finished
    */
   static finish(): void {
@@ -388,11 +388,11 @@ class sdk {
   /**
    * Triggers a retry/restart of the playable ad.
    * Behavior varies by ad network.
-   * 
+   *
    * @example
    * // Allow user to try again
    * retryButton.onclick = () => sdk.retry();
-   * 
+   *
    * @fires retry When a retry is triggered
    */
   static retry(): void {
@@ -408,11 +408,11 @@ class sdk {
   /**
    * Triggers the install/download action for the advertised app.
    * Handles different store opening methods across ad networks.
-   * 
+   *
    * @example
    * // Call when user wants to install
    * installButton.onclick = () => sdk.install();
-   * 
+   *
    * @fires finish If the ad hasn't been marked as finished
    * @fires install When the install action is triggered
    */
@@ -443,7 +443,7 @@ class sdk {
     emitEvent('install');
 
     if ('mraid' === AD_PROTOCOL && isMraid()) {
-      mraid.open(destinationUrl)
+      mraid.open(destinationUrl);
     } else if ('dapi' === AD_PROTOCOL && isDapi()) {
       dapi.openStoreUrl();
     } else if ('nucleo' === AD_PROTOCOL && isNucleo()) {
@@ -468,10 +468,10 @@ class sdk {
   /**
    * Trigger force resize event
    * Useful when container size changes need to be manually propagated.
-   * 
+   *
    * @example
    * sdk.resize();
-   * 
+   *
    * @fires resize With current maxWidth and maxHeight
    */
   static resize() {
@@ -480,11 +480,11 @@ class sdk {
 
   /**
    * Forces the playable ad into a paused state.
-   * 
+   *
    * @example
    * // Pause the experience
    * pauseButton.onclick = () => sdk.pause();
-   * 
+   *
    * @fires pause When the ad enters paused state
    */
   static pause(): void {
@@ -497,11 +497,11 @@ class sdk {
   /**
    * Resumes the playable ad from a forced pause state.
    * Only works if the ad was paused via sdk.pause().
-   * 
+   *
    * @example
    * // Resume from pause
    * resumeButton.onclick = () => sdk.resume();
-   * 
+   *
    * @fires resume When the ad resumes from pause
    */
   static resume(): void {
@@ -513,17 +513,17 @@ class sdk {
 
   /**
    * Registers an event listener.
-   * 
+   *
    * @param event Name of the event to listen for
    * @param fn Callback function to execute when event occurs
    * @param context Optional 'this' context for the callback
-   * 
+   *
    * @example
    * // Listen for user interactions
    * sdk.on('interaction', (count) => {
    *   console.log(`User interaction #${count}`);
    * });
-   * 
+   *
    * // Listen for resize with context
    * sdk.on('resize', function(width, height) {
    *   this.updateLayout(width, height);
@@ -535,11 +535,11 @@ class sdk {
 
   /**
    * Registers a one-time event listener that removes itself after execution.
-   * 
+   *
    * @param event Name of the event to listen for
    * @param fn Callback function to execute when event occurs
    * @param context Optional 'this' context for the callback
-   * 
+   *
    * @example
    * // Listen for first interaction only
    * sdk.once('interaction', () => {
@@ -552,16 +552,16 @@ class sdk {
 
   /**
    * Removes an event listener.
-   * 
+   *
    * @param event Name of the event to stop listening for
    * @param fn Optional callback function to remove (if not provided, removes all listeners for the event)
    * @param context Optional 'this' context to match when removing
-   * 
+   *
    * @example
    * // Remove specific listener
    * const handler = () => console.log('Interaction');
    * sdk.off('interaction', handler);
-   * 
+   *
    * // Remove all listeners for an event
    * sdk.off('interaction');
    */

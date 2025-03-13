@@ -1,7 +1,7 @@
 {
   "name": "@smoud/playable-sdk",
-  "version": "1.0.0",
-  "description": "It's unified SDK that supports MRAID, Google, Facebook, Vungle, and many more Ad Networks, simplifying playable ad development with a standardized interface for seamless cross-network compatibility.",
+  "version": "1.0.1",
+  "description": "It's unified Playable SDK that supports MRAID, Google, Facebook, Vungle, and many more Ad Networks, simplifying playable ad development with a standardized interface for seamless cross-network compatibility.",
   "main": "dist/index.js",
   "module": "dist/esm/index.js",
   "browser": "dist/iife/index.js",
@@ -21,7 +21,8 @@
   ],
   "scripts": {
     "build": "npx tsup src/index.ts --format esm,cjs,iife --out-dir dist --legacy-output --dts --clean",
-    "test": "jest"
+    "test": "jest",
+    "publish": "npm run test && npm run build && npm publish --access public"
   },
   "author": "Smoud",
   "license": "MIT",
