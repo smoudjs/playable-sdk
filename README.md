@@ -1,31 +1,46 @@
-# Playable SDK
+# @smoud/playable-sdk
 
-The package contains sdk core functions, to allow run playable ads in the applovin, unity or any other ad network.
+It's powerful, unified SDK that seamlessly integrates multiple ad network SDKs, including MRAID, Google, Facebook, Vungle, and many more. Designed for effortless playable ad development, it provides a standardized interface, ensuring compatibility, optimization, and easy deployment across various platforms. With @smoud/playable-sdk, you can streamline your workflow, maximize reach, and focus on crafting engaging interactive ads without worrying about SDK fragmentation. 🚀
 
-Currently supports:
+## Features
 
-- applovin
-- unity
-- google
-- ironsource mraid / dapi
-- facebook
-- moloco
-- mintegral
-- vungle
-- adcolony
-- tapjoy
-- snapchat
-- tiktok
-- appreciate
-- chartboost
-- pangle
-- mytarget
-- liftoff
+- 🌐 **Universal Compatibility**: Works with all major ad networks
+- 🔄 **Standardized Interface**: Single API for all supported networks
+- 📱 **Responsive Design**: Automatic handling of orientation and resize events
+- 🎮 **Game State Management**: Built-in pause/resume and lifecycle management
+- 🔊 **Audio Control**: Volume management across different networks
+- 📊 **Interaction Tracking**: Built-in user interaction monitoring
+- ⚡ **Lightweight**: No external dependencies
 
+## Supported Ad Networks
 
-## Documentation
+### Ad Network supports
 
-Documentation can be found here: [documentation](https://github.com/smoudjs/playable-sdk)
+- IronSource (MRAID/DAPI)
+- AppLovin
+- Unity Ads
+- Google Ads
+- Meta (Facebook)
+- Moloco
+- Mintegral
+- Vungle
+- TapJoy
+- Snapchat
+- TikTok
+- Appreciate
+- Pangle
+- Liftoff
+- Chartboost
+- AdColony
+- MyTarget
+
+### Protocol Support
+
+The SDK automatically detects and adapts to the appropriate ad network protocol:
+
+- MRAID Protocol (v2/v3)
+- DAPI Protocol (Display Ad Protocol Interface)
+- Network-specific protocols (Facebook, Google, etc.)
 
 ## Installation
 
@@ -33,27 +48,238 @@ Documentation can be found here: [documentation](https://github.com/smoudjs/play
 npm install @smoud/playable-sdk
 ```
 
-## Usage
+## Quick Start
 
-```ts
+```javascript
 import { sdk } from '@smoud/playable-sdk';
-import { Game } from './Game';
 
+// Initialize the SDK as early as possible
 sdk.init((width, height) => {
-  const game = new Game(width, height);
-
-  sdk.on('resize', game.resize, game);
-  sdk.on('pause', game.pause, game);
-  sdk.on('resume', game.resume, game);
-  sdk.on('finish', game.finish, game);
+  // Initialize your game/app with container dimensions
+  new Game(width, height);
 });
 ```
 
+```javascript
+// Listen for events
+sdk.on('resize', (width, height) => {
+  game.resize(width, height);
+});
 
+sdk.on('pause', game.pause, game);
+sdk.on('resume', game.resume, game);
+sdk.on('volume', game.volume, game);
+sdk.on('finish', game.finish, game);
 
-Resources, other ad networks requirements
-https://www.playturbo.com/review/doc
-https://docs.chartboost.com/en/advertising/creatives/mraid-playable/
-https://doc.playturbo.com/other-tutorials/documentation-for-project-deployment/playable-upload-specifications-for-networks
-https://www.iab.com/guidelines/mraid/
-https://iabtechlab.com/wp-content/uploads/2018/06/MRAID_3.0_FINAL_June_2018.pdf
+sdk.on('interaction', (count) => {
+  console.log(`User interaction count: ${count}`);
+});
+```
+
+```javascript
+// Start the playable when resources are loaded
+sdk.start();
+```
+
+```javascript
+// Mark playable as complete
+sdk.finish();
+
+// Handle install/download action
+installButton.onclick = () => sdk.install();
+```
+
+## SDK API Reference
+
+### Lifecycle Management & typical usage
+
+The SDK provides a comprehensive set of functions to manage the playable ad lifecycle. Functions should be called in the following order:
+
+1. **Initialization & Setup**
+
+   ```javascript
+   // Initialize SDK (required first call)
+   sdk.init((width, height) => {
+     // Setup your app with container dimensions
+   });
+
+   // Start playable after resources are loaded
+   sdk.start();
+   ```
+
+2. **Listen for needed events**
+
+   #### **RECOMMENDED** events For best user experience
+
+   ```javascript
+   sdk.on('resize', (width, height) => {
+     // Update game layout on container resize
+     game.updateLayout(width, height);
+     ui.repositionElements();
+   });
+
+   sdk.on('pause', () => {
+     // Pause gameplay when ad container loses focus
+     game.pauseGameplay();
+     ui.showPauseOverlay();
+   });
+
+   sdk.on('resume', () => {
+     // Resume gameplay when focus returns
+     game.resumeGameplay();
+     ui.hidePauseOverlay();
+   });
+
+   sdk.on('volume', (level) => {
+     // Adjust game audio when container volume changes
+     audio.setVolume(level);
+     ui.updateVolumeIndicator(level);
+
+     //   if (level === 0) audio.muteGlobal();
+     //   else audio.unMuteGlobal();
+   });
+
+   sdk.on('finish', () => {
+     // Show end screen when playable is marked complete
+     game.stopGameplay();
+     ui.showEndScreen();
+   });
+   ```
+   #### Optional events
+   ```javascript
+   sdk.on('init', () => {
+     // Show loading screen while SDK initializes
+     loadingScreen.show();
+   });
+
+   sdk.on('ready', () => {
+     // You should use either init callback function or this event to initialize your game
+     // They are performing just in the same condition, so avoid creating game instance duplication
+     new Game(sdk.maxWidth, sdk.maxHeight);
+   });
+
+   sdk.on('start', () => {
+     // Begin gameplay/animation when playable officially starts
+     game.startGameplay();
+     loadingScreen.hide();
+   });
+
+   sdk.on('interaction', (count) => {
+     // Track user engagement
+     analytics.logInteraction(count);
+     if (count >= 3) {
+       // Show CTA after sufficient engagement
+       game.showCallToAction();
+     }
+   });
+
+   sdk.on('retry', () => {
+     // Reset game state for replay
+     game.reset();
+     ui.hideEndScreen();
+     game.startGameplay();
+   });
+
+   sdk.on('install', () => {
+     // Track conversion when install/store action triggered
+     analytics.logConversion();
+   });
+   ```
+
+3. **Mark all resources are preloaded and first frame is rendered**
+
+   ```javascript
+   // Start playable after resources are loaded
+   sdk.start();
+   ```
+
+4. **Completion & Installation**
+
+   ```javascript
+   // Mark playable as complete
+   sdk.finish();
+
+   // Trigger install/store redirect
+   sdk.install();
+   ```
+
+### Event System
+
+Events are emitted throughout the playable lifecycle and can be handled using:
+
+```javascript
+// Regular event listener
+sdk.on('eventName', callback, [context]);
+
+// One-time event listener
+sdk.once('eventName', callback, [context]);
+
+// Remove listener(s)
+sdk.off('eventName', [callback], [context]);
+```
+
+#### Available Events
+
+| Event         | Parameters      | Description                                | Typical Usage            |
+| ------------- | --------------- | ------------------------------------------ | ------------------------ |
+| `init`        | -               | SDK initialization started                 | Setup loading screen     |
+| `boot`        | -               | Ad container is ready `pre` init callback  | Initialize core systems  |
+| `ready`       | -               | Ad container is ready `post` init callback | Start resource loading   |
+| `start`       | -               | Playable experience started                | Begin gameplay/animation |
+| `interaction` | `count`         | User interaction occurred                  | Track engagement         |
+| `resize`      | `width, height` | Container size changed                     | Update layout            |
+| `pause`       | -               | Playable entered pause state               | Pause gameplay           |
+| `resume`      | -               | Playable resumed from pause                | Resume gameplay          |
+| `volume`      | `level`         | Volume level changed (0-1)                 | Adjust audio             |
+| `retry`       | -               | Retry/restart triggered                    | Reset game state         |
+| `finish`      | -               | Playable marked as complete                | Show end screen          |
+| `install`     | -               | Install action triggered                   | Track conversion         |
+
+### Properties
+
+| Property           | Type    | Description                                            |
+| ------------------ | ------- | ------------------------------------------------------ |
+| `sdk.version`      | string  | Current SDK version                                    |
+| `sdk.maxWidth`     | number  | Container width in pixels                              |
+| `sdk.maxHeight`    | number  | Container height in pixels                             |
+| `sdk.isLandscape`  | boolean | Current device orientation state                       |
+| `sdk.isReady`      | boolean | Ad container ready state                               |
+| `sdk.isStarted`    | boolean | All resources are loaded and playable started state    |
+| `sdk.isPaused`     | boolean | Current pause state                                    |
+| `sdk.isFinished`   | boolean | Completion state                                       |
+| `sdk.volume`       | number  | Default volume level (0-1), when muting/unmuting audio |
+| `sdk.interactions` | number  | User interaction count                                 |
+
+## References
+
+### Ad Network Resources & Requirements
+
+#### MRAID Networks
+
+- [MRAID 3.0](https://www.iab.com/wp-content/uploads/2017/07/MRAID_3.0_FINAL.pdf)
+- [IronSource - MRAID requirements](https://developers.is.com/ironsource-mobile/general/mraid-requirements/#step-1)
+- [IronSource - Interactive ad creative requirements](https://developers.is.com/ironsource-mobile/general/interactive-requirements/#step-1)
+- [Unity Ads Documentation](https://docs.unity.com/acquire/en-us/manual/playable-ads-specifications)
+- [Chartboost Integration](https://docs.chartboost.com/en/advertising/creatives/creative-assets/)
+
+#### Proprietary Networks
+
+- [Google HTML5 / Playable Ads](https://support.google.com/google-ads/answer/9981650?hl=en)
+- [Meta (Facebook) Playable Ads](https://www.facebook.com/business/help/412951382532338)
+- [Mintegral Integration](https://www.playturbo.com/review/doc)
+
+### Testing Tools
+
+#### Network Testing Tools
+
+- Applovin Playable [Web](https://p.applov.in/playablePreview?create=1&;qr=1) / [iOS](https://install.appcenter.ms/orgs/iosdeveloper-dbmy/apps/ios-playable-preview/distribution_groups/all-users-of-ios-playable-preview) / [Android](https://install.appcenter.ms/orgs/iosdeveloper-dbmy/apps/android-playable-preview/distribution_groups/all-users-of-android-playable-preview)
+- Unity Ad Testing [iOS](https://apps.apple.com/us/app/ad-testing/id1463016906) / [Android](https://play.google.com/store/apps/details?id=com.unity3d.auicreativetestapp)
+- [Vungle Creative QA](https://vungle.com/creative-verifier/)
+- [Facebook Playable Preview Tool](https://developers.facebook.com/tools/playable-preview/)
+- [Google HTML5 Validator](https://h5validator.appspot.com/adwords/asset)
+- [IronSource Integration Validation](https://developers.is.com/ironsource-mobile/general/test-suite/)
+- [Mintegral Testing Tool](https://www.playturbo.com/review/doc)
+
+## Issues
+
+Report issues at [GitHub Issues](https://github.com/smoudjs/playable-sdk/issues)

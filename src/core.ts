@@ -13,32 +13,6 @@ import {
 
 type InitCallbackType = (maxWidth: number, maxHeight: number) => void;
 
-/**
- * Possible AD_NETWORK:
- * - applovin
- * - unity
- * - google
- * - ironsource
- * - facebook
- * - moloco
- * - mintegral
- * - vungle
- * - adcolony
- * - tapjoy
- * - snapchat
- * - tiktok
- * - appreciate
- * - chartboost
- * - pangle
- * - mytarget
- * - liftoff
- *
- * Possible AD_PROTOCOL:
- * - none
- * - mraid
- * - dapi
- */
-
 const destinationUrl = /android/i.test(navigator.userAgent) ? GOOGLE_PLAY_URL : APP_STORE_URL;
 let isSDKInitialized: boolean = false;
 let isProtocolInitialized: boolean = false;
@@ -277,20 +251,59 @@ function registerTouchHandlers(): void {
   }
 }
 
+/**
+ * Main SDK class providing playable ad functionality and state management.
+ * Handles initialization, lifecycle events, and interactions across different ad networks.
+ */
 class sdk {
+  /** Current version of the SDK */
   static version: string = '1.0.0';
+
+  /** Current maximum width of the playable ad container in pixels */
   static maxWidth: number = Math.floor(window.innerWidth);
+
+  /** Current maximum height of the playable ad container in pixels */
   static maxHeight: number = Math.floor(window.innerHeight);
+
+  /** Indicates if the current orientation is landscape (width > height) */
   static isLandscape: boolean = window.innerWidth > window.innerHeight;
 
+  /** Indicates if the Ad Network is ready and playable ad can be initialized */
   static isReady: boolean = false;
+
+  /** Indicates if all playable ad resources are loaded and gameplay has started */
   static isStarted: boolean = false;
+
+  /** Indicates if the playable ad is currently paused */
   static isPaused: boolean = false;
+
+  /** Indicates if the playable ad has finished */
   static isFinished: boolean = false;
 
+  /** Current volume level (0-1) */
   static volume: number = 1;
+
+  /** Number of user interactions with the playable ad */
   static interactions: number = 0;
 
+  /**
+   * Initializes the SDK and sets up protocol-specific handlers.
+   * This must be called as earlier as possible.
+   * 
+   * @param callback Optional function called when ad container is ready
+   * @example
+   * // Basic initialization
+   * sdk.init();
+   * 
+   * // Initialization with callback
+   * sdk.init((width, height) => {
+   *   new App(width, height)
+   * });
+   * 
+   * @fires init When initialization starts
+   * @fires boot When the ad begins booting
+   * @fires ready When Ad Network is ready and playable ad can be initialized
+   */
   static init(callback?: InitCallbackType): void {
     if (isSDKInitialized) return;
     ensureProtocol();
@@ -314,6 +327,17 @@ class sdk {
     isSDKInitialized = true;
   }
 
+  /**
+   * Starts the playable ad experience.
+   * Should be called after all resources are loaded and first frame is rendered.
+   * 
+   * @example
+   * // Call just after all resources are preloaded and first frame is rendered
+   * sdk.start();
+   * 
+   * @fires start When the playable ad starts
+   * @fires resize When the ad container is initially sized
+   */
   static start(): void {
     if (sdk.isStarted) return;
     sdk.isStarted = true;
@@ -337,6 +361,16 @@ class sdk {
     }
   }
 
+  /**
+   * Marks the playable ad as finished.
+   * This triggers network-specific completion handlers.
+   * 
+   * @example
+   * // Call when game/experience is complete
+   * sdk.finish();
+   * 
+   * @fires finish When the playable ad is marked as finished
+   */
   static finish(): void {
     sdk.isFinished = true;
 
@@ -351,6 +385,16 @@ class sdk {
     emitEvent('finish');
   }
 
+  /**
+   * Triggers a retry/restart of the playable ad.
+   * Behavior varies by ad network.
+   * 
+   * @example
+   * // Allow user to try again
+   * retryButton.onclick = () => sdk.retry();
+   * 
+   * @fires retry When a retry is triggered
+   */
   static retry(): void {
     if ('mintegral' === AD_NETWORK && isMintegral()) {
       window.gameRetry && window.gameRetry();
@@ -361,6 +405,17 @@ class sdk {
     emitEvent('retry');
   }
 
+  /**
+   * Triggers the install/download action for the advertised app.
+   * Handles different store opening methods across ad networks.
+   * 
+   * @example
+   * // Call when user wants to install
+   * installButton.onclick = () => sdk.install();
+   * 
+   * @fires finish If the ad hasn't been marked as finished
+   * @fires install When the install action is triggered
+   */
   static install(): void {
     if (!sdk.isFinished) {
       sdk.isFinished = true;
@@ -388,7 +443,7 @@ class sdk {
     emitEvent('install');
 
     if ('mraid' === AD_PROTOCOL && isMraid()) {
-      mraid.openStoreUrl ? mraid.openStoreUrl() : mraid.open(destinationUrl);
+      mraid.open(destinationUrl)
     } else if ('dapi' === AD_PROTOCOL && isDapi()) {
       dapi.openStoreUrl();
     } else if ('nucleo' === AD_PROTOCOL && isNucleo()) {
@@ -410,10 +465,28 @@ class sdk {
     }
   }
 
+  /**
+   * Trigger force resize event
+   * Useful when container size changes need to be manually propagated.
+   * 
+   * @example
+   * sdk.resize();
+   * 
+   * @fires resize With current maxWidth and maxHeight
+   */
   static resize() {
     handleResize(sdk.maxWidth, sdk.maxHeight);
   }
 
+  /**
+   * Forces the playable ad into a paused state.
+   * 
+   * @example
+   * // Pause the experience
+   * pauseButton.onclick = () => sdk.pause();
+   * 
+   * @fires pause When the ad enters paused state
+   */
   static pause(): void {
     if (!isForcePaused) {
       isForcePaused = true;
@@ -421,6 +494,16 @@ class sdk {
     }
   }
 
+  /**
+   * Resumes the playable ad from a forced pause state.
+   * Only works if the ad was paused via sdk.pause().
+   * 
+   * @example
+   * // Resume from pause
+   * resumeButton.onclick = () => sdk.resume();
+   * 
+   * @fires resume When the ad resumes from pause
+   */
   static resume(): void {
     if (isForcePaused) {
       isForcePaused = false;
@@ -428,14 +511,60 @@ class sdk {
     }
   }
 
+  /**
+   * Registers an event listener.
+   * 
+   * @param event Name of the event to listen for
+   * @param fn Callback function to execute when event occurs
+   * @param context Optional 'this' context for the callback
+   * 
+   * @example
+   * // Listen for user interactions
+   * sdk.on('interaction', (count) => {
+   *   console.log(`User interaction #${count}`);
+   * });
+   * 
+   * // Listen for resize with context
+   * sdk.on('resize', function(width, height) {
+   *   this.updateLayout(width, height);
+   * }, gameInstance);
+   */
   static on(event: EventName, fn: Function, context?: any): void {
     onEvent(event, fn, context);
   }
 
+  /**
+   * Registers a one-time event listener that removes itself after execution.
+   * 
+   * @param event Name of the event to listen for
+   * @param fn Callback function to execute when event occurs
+   * @param context Optional 'this' context for the callback
+   * 
+   * @example
+   * // Listen for first interaction only
+   * sdk.once('interaction', () => {
+   *   console.log('First user interaction occurred!');
+   * });
+   */
   static once(event: EventName, fn: Function, context?: any): void {
     onEvent(event, fn, context, true);
   }
 
+  /**
+   * Removes an event listener.
+   * 
+   * @param event Name of the event to stop listening for
+   * @param fn Optional callback function to remove (if not provided, removes all listeners for the event)
+   * @param context Optional 'this' context to match when removing
+   * 
+   * @example
+   * // Remove specific listener
+   * const handler = () => console.log('Interaction');
+   * sdk.off('interaction', handler);
+   * 
+   * // Remove all listeners for an event
+   * sdk.off('interaction');
+   */
   static off(event: EventName, fn?: Function, context?: any): void {
     offEvent(event, fn, context);
   }

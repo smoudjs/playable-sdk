@@ -8,9 +8,7 @@
   "types": "dist/index.d.ts",
   "exports": {
     "import": "./dist/esm/index.js",
-    "require": "./dist/index.js",
-    "browser": "./dist/iife/index.js",
-    "types": "./dist/index.d.ts"
+    "require": "./dist/index.js"
   },
   "repository": {
     "type": "git",
@@ -36,7 +34,48 @@
     "typescript": "^5.7.2"
   },
   "bugs": {
+    "mail": "peter.hutsul@gmail.com",
     "url": "https://github.com/smoudjs/playable-sdk/issues"
   },
-  "homepage": "https://github.com/smoudjs/playable-sdk"
+  "homepage": "https://github.com/smoudjs/playable-sdk",
+  "keywords": [
+    "playable",
+    "sdk",
+    "playable-sdk",
+    "PlayableSDK",
+    "playable-ads",
+    "html5",
+    "html5-playable",
+    "playable-ad-sdk",
+    "playable-ads-sdk",
+    "html5-playable-ads",
+    "interactive-ads",
+    "ads",
+    "ad-sdk",
+    "ad-network",
+    "ad-monetization",
+    "mraid",
+    "mraid-sdk",
+    "google-ads",
+    "facebook-playable",
+    "unity-ads",
+    "vungle",
+    "ironsource",
+    "mintegral",
+    "tiktok-ads",
+    "pangle-sdk",
+    "applovin",
+    "chartboost",
+    "adcolony",
+    "snapchat-ads",
+    "appreciate-ads",
+    "liftoff",
+    "mytarget",
+    "javascript-sdk",
+    "typescript-sdk",
+    "game-ad-sdk",
+    "html5-sdk",
+    "interactive-ads",
+    "playable-ads-engine"
+  ]
 }
