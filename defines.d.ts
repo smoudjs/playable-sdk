@@ -63,8 +63,7 @@ declare const AD_NETWORK:
 declare const AD_PROTOCOL: 'mraid' | 'dapi' | 'nucleo' | 'none';
 declare const GOOGLE_PLAY_URL: string;
 declare const APP_STORE_URL: string;
-declare const __DEV__: boolean;
-declare const __BUILD_ID__: string;
+declare const BUILD_HASH: string;
 
 // Mintegral functions
 declare const gameStart: Function;

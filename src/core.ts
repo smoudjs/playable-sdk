@@ -353,7 +353,7 @@ class sdk {
       if ('tapjoy' === AD_NETWORK && isTapjoy()) {
         window.TJ_API.setPlayableBuild({
           orientation: this.isLandscape ? 'landscape' : 'portrait',
-          buildID: __BUILD_ID__
+          buildID: BUILD_HASH
         });
       }
 
