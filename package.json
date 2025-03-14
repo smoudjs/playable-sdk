@@ -1,15 +1,11 @@
 {
   "name": "@smoud/playable-sdk",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "It's unified Playable SDK that supports MRAID, Google, Facebook, Vungle, and many more Ad Networks, simplifying playable ad development with a standardized interface for seamless cross-network compatibility.",
   "main": "dist/index.js",
   "module": "dist/esm/index.js",
   "browser": "dist/iife/index.js",
   "types": "dist/index.d.ts",
-  "exports": {
-    "import": "./dist/esm/index.js",
-    "require": "./dist/index.js"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/smoudjs/playable-sdk.git"
