@@ -175,17 +175,13 @@ function startDefaultProtocol() {
 
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible') {
-        if (sdk.isReady) {
-          handleResume();
-        } else {
-          bootAd();
-        }
+        handleResume();
       } else {
         handlePause();
       }
     });
 
-    if (document.readyState === 'complete' || document.visibilityState === 'visible') {
+    if (document.readyState === 'complete') {
       bootAd();
     } else {
       window.addEventListener('load', () => {

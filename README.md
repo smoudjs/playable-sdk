@@ -54,115 +54,6 @@ The SDK automatically detects and adapts to the appropriate ad network protocol:
 npm install @smoud/playable-sdk
 ```
 
-## Build
-
-### Introduction: @smoud/playable-scripts
-
-`@smoud/playable-sdk` works best with the **@smoud/playable-scripts** package, which helps you prepare **playable ad builds** that are ready for multiple ad networks. Using `playable-scripts` provides key benefits:
-
-- 🚀 **One-Command Build Process** – Easily generate builds for different ad networks.
-- ⚡ **Automatic Optimizations** – Includes minification, tree-shaking, and dead code elimination.
-- 🎯 **Pre-configured for Major Ad Networks** – Works out of the box with **Google Ads, Meta (Facebook), AppLovin, Unity, IronSource, Vungle, Mintegral, and more**.
-- 🛠️ **Customizable** – Extend the default build pipeline as needed.
-
-### 🔧 Quick Start
-
-#### 1️⃣ Install **@smoud/playable-scripts**
-
-Install the package in your project:
-
-```sh
-npm i --save-dev @smoud/playable-scripts
-```
-
-#### 2️⃣ Update `package.json`
-
-Modify your `package.json` file to include the following scripts:
-
-```json
-"scripts": {
-  "dev": "playable-scripts dev",
-  "build": "playable-scripts build"
-}
-```
-
-#### 3️⃣ Run the development server
-
-Start a local development server with live reloading:
-
-```sh
-npm run dev
-```
-
-#### 4️⃣ Build for a specific ad network
-
-To generate a playable ad ready for an ad network, use the build command:
-
-```sh
-npm run build <ad-network>
-```
-
-##### Examples:
-To build for **Applovin**, run:
-
-```sh
-npm run build applovin
-```
-
-To build for **IronSource DAPI**, run:
-
-```sh
-npm run build ironsource -- --dapi
-```
-
-Supported **Ad Networks**:
-
-- `applovin`
-- `unity`
-- `google`
-- `ironsource`
-- `facebook`
-- `moloco`
-- `mintegral`
-- `vungle`
-- `tapjoy`
-- `snapchat`
-- `tiktok`
-- `appreciate`
-- `chartboost`
-- `pangle`
-- `mytarget`
-- `liftoff`
-
-## Custom Build Pipeline
-
-Before setting up a custom pipeline, consider using **@smoud/playable-scripts**. It provides an API to extend the standard build function and simplifies the process.
-
-If you still prefer a fully custom build, you need to manage the following aspects yourself:
-
-### 1️⃣ Define Required Variables
-Your build script should replace or define these variables within the `window` object before the rest of your code executes:
-
-```ts
-AD_NETWORK = 'applovin'; // Replace with your target network
-AD_PROTOCOL = 'mraid'; // Options: 'mraid', 'dapi', 'none'
-GOOGLE_PLAY_URL = 'https://play.google.com/store/apps/details?id=com.example';
-APP_STORE_URL = 'https://apps.apple.com/app/id123456789';
-BUILD_HASH = 'random-build-hash';
-```
-
-### 2️ Applying Ad-Specific Adjustments
-Certain networks use different ad protocols. Ensure that your build includes or removes code based on the network.
-
-Check [Ad Network Resources & Requirements](#Ad-Network-Resources-&-Requirements) for more details.
-
-### 3️⃣ Minification & Optimization
-To ensure the best performance, your build should include a **JavaScript minimizer** to remove unnecessary code. 
-
-#### Recommended Tools:
-- [Terser](https://github.com/terser/terser) – Best for JS minification.
-- [UglifyJS](https://github.com/mishoo/UglifyJS) – Alternative for JS compression.
-
 ## Quick Start
 
 ```javascript
@@ -204,9 +95,124 @@ sdk.finish();
 installButton.onclick = () => sdk.install();
 ```
 
+## Build
+
+### @smoud/playable-scripts
+
+`@smoud/playable-sdk` works best with the [`@smoud/playable-scripts`](https://www.npmjs.com/package/@smoud/playable-scripts) package, which helps you prepare **playable ad builds** that are ready for multiple ad networks. Using `playable-scripts` provides key benefits:
+
+- 🚀 **One-Command Build Process** – Easily generate builds for different ad networks.
+- ⚡ **Automatic Optimizations** – Includes minification, tree-shaking, and dead code elimination.
+- 🎯 **Pre-configured for Major Ad Networks** – Works out of the box with **Google Ads, Meta (Facebook), AppLovin, Unity, IronSource, Vungle, Mintegral, and many more**.
+- 🛠️ **Customizable** – Extend the default build pipeline as needed.
+
+### 🔧 Quick Start
+
+#### 1️⃣ Install `@smoud/playable-scripts`
+
+Install the package in your project:
+
+```sh
+npm i --save-dev @smoud/playable-scripts
+```
+
+#### 2️⃣ Update `package.json`
+
+Modify your `package.json` file to include the following scripts:
+
+```json
+"scripts": {
+  "dev": "playable-scripts dev",
+  "build": "playable-scripts build"
+}
+```
+
+#### 3️⃣ Run the development server
+
+Start a local development server with live reloading:
+
+```sh
+npm run dev
+```
+
+#### 4️⃣ Build for a specific ad network
+
+To generate a playable ad ready for an ad network, use the build command:
+
+```sh
+npm run build <ad-network>
+```
+
+##### Examples:
+
+To build for **Applovin**, run:
+
+```sh
+npm run build applovin
+```
+
+To build for **IronSource DAPI**, run:
+
+```sh
+npm run build ironsource -- --protocol dapi
+```
+
+Supported **Ad Networks**:
+
+- `applovin`
+- `unity`
+- `google`
+- `ironsource`
+- `facebook`
+- `moloco`
+- `adcolony`
+- `mintegral`
+- `vungle`
+- `tapjoy`
+- `snapchat`
+- `tiktok`
+- `appreciate`
+- `chartboost`
+- `pangle`
+- `mytarget`
+- `liftoff`
+
+## Custom Build Pipeline
+
+Before setting up a custom pipeline, consider using `@smoud/playable-scripts`. It provides an API to extend the standard build function and simplifies the process. See details [here](https://github.com/smoudjs/playable-scripts).
+
+If you still prefer a fully custom build, you need to manage the following aspects yourself:
+
+### 1️⃣ Define Required Variables
+
+Your build script should replace or define these variables within the `window` object before the rest of your code executes:
+
+```ts
+AD_NETWORK = 'applovin'; // Replace with your target network
+AD_PROTOCOL = 'mraid'; // Options: 'mraid', 'dapi', 'none'
+GOOGLE_PLAY_URL = 'https://play.google.com/store/apps/details?id=com.example';
+APP_STORE_URL = 'https://apps.apple.com/app/id123456789';
+BUILD_HASH = 'random-build-hash';
+```
+
+### 2️ Applying Ad-Specific Adjustments
+
+Certain networks use different ad protocols. Ensure that your build includes or removes code based on the network.
+
+Check [Ad Network Resources & Requirements](#Ad-Network-Resources-&-Requirements) for more details.
+
+### 3️⃣ Minification & Optimization
+
+To ensure the best performance, your build should include a **JavaScript minimizer** to remove unnecessary code.
+
+#### Recommended Tools:
+
+- [Terser](https://github.com/terser/terser) – Best for JS minification.
+- [UglifyJS](https://github.com/mishoo/UglifyJS) – Alternative for JS compression.
+
 ## SDK API Reference
 
-### Lifecycle Management & typical usage
+### Lifecycle management & typical usage
 
 The SDK provides a comprehensive set of functions to manage the playable ad lifecycle. Functions should be called in the following order:
 
@@ -217,9 +223,6 @@ The SDK provides a comprehensive set of functions to manage the playable ad life
    sdk.init((width, height) => {
      // Setup your app with container dimensions
    });
-
-   // Start playable after resources are loaded
-   sdk.start();
    ```
 
 2. **Listen for needed events**
@@ -260,7 +263,9 @@ The SDK provides a comprehensive set of functions to manage the playable ad life
      ui.showEndScreen();
    });
    ```
+
    #### Optional events
+
    ```javascript
    sdk.on('init', () => {
      // Show loading screen while SDK initializes
@@ -313,7 +318,9 @@ The SDK provides a comprehensive set of functions to manage the playable ad life
    ```javascript
    // Mark playable as complete
    sdk.finish();
+   ```
 
+   ```javascript
    // Trigger install/store redirect
    sdk.install();
    ```
