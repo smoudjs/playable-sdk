@@ -3,7 +3,7 @@
     "outDir": "dist/esm",
     "rootDir": "src",
     "declaration": true,
-    "declarationDir": "dist/types",
+    "declarationDir": "dist/ems",
     "target": "ES2015",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": false,

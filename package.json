@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "module": "dist/esm/index.js",
   "browser": "dist/iife/index.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/esm/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/smoudjs/playable-sdk.git"
@@ -16,7 +16,7 @@
     "defines.d.ts"
   ],
   "scripts": {
-    "build": "npx tsup src/index.ts --format esm,cjs,iife --out-dir dist --legacy-output --dts --clean",
+    "build": "npx tsup src/index.ts --format esm,cjs,iife --out-dir dist --legacy-output --clean && npx tsup src/index.ts --dts-only --out-dir dist/esm",
     "test": "jest",
     "deploy": "npm run test && npm run build && npm publish --access public"
   },
