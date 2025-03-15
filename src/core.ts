@@ -253,7 +253,7 @@ function registerTouchHandlers(): void {
  */
 class sdk {
   /** Current version of the SDK */
-  static version: string = '1.0.1';
+  static version: string = '1.0.7';
 
   /** Current maximum width of the playable ad container in pixels */
   static maxWidth: number = Math.floor(window.innerWidth);
@@ -393,7 +393,7 @@ class sdk {
    */
   static retry(): void {
     if ('mintegral' === AD_NETWORK && isMintegral()) {
-      window.gameRetry && window.gameRetry();
+      // window.gameRetry && window.gameRetry();
     } else if ('nucleo' === AD_PROTOCOL && isNucleo()) {
       NUC.trigger.tryAgain();
     }

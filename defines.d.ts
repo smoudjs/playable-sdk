@@ -65,10 +65,6 @@ declare const GOOGLE_PLAY_URL: string;
 declare const APP_STORE_URL: string;
 declare const BUILD_HASH: string;
 
-// Mintegral functions
-declare const gameStart: Function;
-declare const gameClose: Function;
-
 interface Window {
   PlayableSDK: any;
 
@@ -77,8 +73,8 @@ interface Window {
   gameEnd: Function;
   gameRetry: Function;
   install: Function;
-  mintGameStart: Function,
-  mintGameClose: Function
+  mintGameStart: Function;
+  mintGameClose: Function;
 
   // Tapjoy functions
   TJ_API: {
@@ -86,9 +82,9 @@ interface Window {
     playableFinished: Function;
     gameplayFinished: Function;
     setPlayableBuild: Function;
-    setPlayableAPI: Function
+    setPlayableAPI: Function;
     click: Function;
   };
-  
+
   openAppStore: Function;
 }

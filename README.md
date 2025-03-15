@@ -400,7 +400,7 @@ sdk.off('eventName', [callback], [context]);
 - [Facebook Playable Preview Tool](https://developers.facebook.com/tools/playable-preview/)
 - [Google HTML5 Validator](https://h5validator.appspot.com/adwords/asset)
 - [IronSource Integration Validation](https://developers.is.com/ironsource-mobile/general/test-suite/)
-- [Mintegral Testing Tool](https://www.playturbo.com/review/doc)
+- [Mintegral Testing Tool](https://www.playturbo.com/review)
 
 ## Issues
 
