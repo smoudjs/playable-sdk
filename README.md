@@ -143,20 +143,6 @@ To generate a playable ad ready for an ad network, use the build command:
 npm run build <ad-network>
 ```
 
-##### Examples:
-
-To build for **Applovin**, run:
-
-```sh
-npm run build applovin
-```
-
-To build for **IronSource DAPI**, run:
-
-```sh
-npm run build ironsource -- --protocol dapi
-```
-
 Supported **Ad Networks**:
 
 - `applovin`
@@ -177,13 +163,15 @@ Supported **Ad Networks**:
 - `mytarget`
 - `liftoff`
 
-## Custom Build Pipeline
+See more details in [`GitHub repository.`](https://github.com/smoudjs/playable-scripts?tab=readme-ov-file#installation)
 
-Before setting up a custom pipeline, consider using `@smoud/playable-scripts`. It provides an API to extend the standard build function and simplifies the process. See details [here](https://github.com/smoudjs/playable-scripts).
+### Custom Build Pipeline
+
+Before setting up a custom pipeline, consider using `@smoud/playable-scripts`. It provides an API to extend the standard build function and simplifies the process. See more details [here](https://github.com/smoudjs/playable-scripts).
 
 If you still prefer a fully custom build, you need to manage the following aspects yourself:
 
-### 1️⃣ Define Required Variables
+#### 1️⃣ Define Required Variables
 
 Your build script should replace or define these variables within the `window` object before the rest of your code executes:
 
@@ -195,17 +183,17 @@ APP_STORE_URL = 'https://apps.apple.com/app/id123456789';
 BUILD_HASH = 'random-build-hash';
 ```
 
-### 2️ Applying Ad-Specific Adjustments
+#### 2️ Applying Ad-Specific Adjustments
 
 Certain networks use different ad protocols. Ensure that your build includes or removes code based on the network.
 
 Check [Ad Network Resources & Requirements](#Ad-Network-Resources-&-Requirements) for more details.
 
-### 3️⃣ Minification & Optimization
+#### 3️⃣ Minification & Optimization
 
 To ensure the best performance, your build should include a **JavaScript minimizer** to remove unnecessary code.
 
-#### Recommended Tools:
+##### Recommended Tools:
 
 - [Terser](https://github.com/terser/terser) – Best for JS minification.
 - [UglifyJS](https://github.com/mishoo/UglifyJS) – Alternative for JS compression.
