@@ -13,7 +13,7 @@ import {
 
 type InitCallbackType = (maxWidth: number, maxHeight: number) => void;
 
-const destinationUrl = /android/i.test(navigator.userAgent) ? GOOGLE_PLAY_URL : APP_STORE_URL;
+let destinationUrl: string = '';
 let isSDKInitialized: boolean = false;
 let isProtocolInitialized: boolean = false;
 let isForcePaused: boolean = false;
@@ -302,7 +302,9 @@ class sdk {
    */
   static init(callback?: InitCallbackType): void {
     if (isSDKInitialized) return;
+    destinationUrl = /android/i.test(navigator.userAgent) ? GOOGLE_PLAY_URL : APP_STORE_URL;
     ensureProtocol();
+
     if (callback) initCallback = callback;
 
     if ('mraid' === AD_PROTOCOL && isMraid()) {
