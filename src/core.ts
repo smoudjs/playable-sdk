@@ -251,7 +251,7 @@ function registerTouchHandlers(): void {
  */
 class sdk {
   /** Current version of the SDK */
-  static version: string = '1.0.7';
+  static version: string = __NPM_PACKAGE_VERSION__;
 
   /** Current maximum width of the playable ad container in pixels */
   static maxWidth: number = Math.floor(window.innerWidth);
@@ -565,6 +565,12 @@ class sdk {
     offEvent(event, fn, context);
   }
 }
+
+console.log(
+  `%c @smoud/playable-sdk %c v${sdk.version} `,
+  'background: #007acc; color: #fff; font-size: 14px; padding: 4px 8px; border-top-left-radius: 4px; border-bottom-left-radius: 4px;',
+  'background: #e1e4e8; color: #333; font-size: 14px; padding: 4px 8px; border-top-right-radius: 4px; border-bottom-right-radius: 4px;'
+);
 
 export { sdk };
 window.PlayableSDK = sdk;

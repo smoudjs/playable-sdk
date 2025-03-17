@@ -20,5 +20,5 @@
     "resolveJsonModule": true,
     "isolatedModules": true
   },
-  "exclude": ["node_modules", "tests", "dist"]
+  "exclude": ["node_modules", "tests", "dist", "tsup.config.ts"]
 }
