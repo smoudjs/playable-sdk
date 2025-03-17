@@ -6,7 +6,7 @@
 [![DeepScan grade](https://deepscan.io/api/teams/19616/projects/29066/branches/935410/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=19616&pid=29066&bid=935410)
 [![License](https://img.shields.io/npm/l/@smoud/playable-sdk)](https://opensource.org/license/MIT)
 
-It's powerful, unified SDK that seamlessly integrates multiple ad network SDKs, including MRAID, Google, Facebook, Vungle, and many more. Designed for effortless playable ad development, it provides a standardized interface, ensuring compatibility, optimization, and easy deployment across various platforms. With @smoud/playable-sdk, you can streamline your workflow, maximize reach, and focus on crafting engaging interactive ads without worrying about SDK fragmentation. 🚀
+It's powerful, unified SDK that seamlessly integrates multiple ad network SDKs, including MRAID, Google, Facebook, Vungle, and many more. Designed for effortless playable ad development, it provides a standardized interface, ensuring compatibility, optimization, and easy deployment across various platforms. With `@smoud/playable-sdk`, you can streamline your workflow, maximize reach, and focus on crafting engaging interactive ads without worrying about SDK fragmentation. 🚀
 
 ## Features
 
@@ -183,7 +183,7 @@ APP_STORE_URL = 'https://apps.apple.com/app/id123456789';
 BUILD_HASH = 'random-build-hash';
 ```
 
-#### 2️ Applying Ad-Specific Adjustments
+#### 2️⃣ Applying Ad-Specific Adjustments
 
 Certain networks use different ad protocols. Ensure that your build includes or removes code based on the network.
 
@@ -359,6 +359,16 @@ sdk.off('eventName', [callback], [context]);
 | `sdk.isFinished`   | boolean | Completion state                                       |
 | `sdk.volume`       | number  | Default volume level (0-1), when muting/unmuting audio |
 | `sdk.interactions` | number  | User interaction count                                 |
+
+## Demo Projects
+
+Get started quickly with our template projects:
+
+- [playable-template-base](https://github.com/smoudjs/playable-template-base) - Clean TypeScript starter with minimal dependencies
+- [playable-template-base-js](https://github.com/smoudjs/playable-template-base-js) - Clean JavaScript starter with minimal dependencies
+- [playable-template-pixi](https://github.com/smoudjs/playable-template-pixi) - PixiJS template for 2D playable ads
+- [playable-template-three](https://github.com/smoudjs/playable-template-three) - Three.js template for 3D playable ads
+- [playable-template-phaser](https://github.com/smoudjs/playable-template-phaser) - Phaser template for 2D playable ads
 
 ## References
 

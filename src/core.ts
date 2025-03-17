@@ -160,8 +160,6 @@ function startDapiProtocol() {
 }
 
 function startDefaultProtocol() {
-  if ('none' !== AD_PROTOCOL) return;
-
   if (!isProtocolInitialized) {
     if ('mintegral' === AD_NETWORK) {
       window.mintGameStart = function () {
