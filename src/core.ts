@@ -306,7 +306,7 @@ class sdk {
     if (callback) initCallback = callback;
 
     if ('mraid' === AD_PROTOCOL && isMraid()) {
-      if (mraid.getState() !== 'ready' && 'adcolony' !== AD_NETWORK) {
+      if (mraid.getState() !== 'ready') {
         mraid.addEventListener('ready', startMraidProtocol);
       } else {
         startMraidProtocol();
@@ -566,7 +566,7 @@ class sdk {
   }
 }
 
-console.log(
+window["console"].log(
   `%c @smoud/playable-sdk %c v${sdk.version} `,
   'background: #007acc; color: #fff; font-size: 14px; padding: 4px 8px; border-top-left-radius: 4px; border-bottom-left-radius: 4px;',
   'background: #e1e4e8; color: #333; font-size: 14px; padding: 4px 8px; border-top-right-radius: 4px; border-bottom-right-radius: 4px;'

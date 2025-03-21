@@ -3,8 +3,8 @@
 [![npm version](https://img.shields.io/npm/v/@smoud/playable-sdk)](https://www.npmjs.com/package/@smoud/playable-sdk)
 [![npm downloads](https://badgen.net/npm/dw/@smoud/playable-sdk)](https://www.npmjs.com/package/@smoud/playable-sdk)
 [![build size](https://badgen.net/bundlephobia/min/@smoud/playable-sdk)](https://www.npmjs.com/package/@smoud/playable-sdk)
-[![DeepScan grade](https://deepscan.io/api/teams/19616/projects/29066/branches/935410/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=19616&pid=29066&bid=935410)
-[![License](https://img.shields.io/npm/l/@smoud/playable-sdk)](https://opensource.org/license/MIT)
+[![DeepScan grade](https://deepscan.io/api/teams/19616/projects/29066/branches/935410/badge/grade.svg)](https://github.com/smoudjs/playable-sdk)
+[![License](https://img.shields.io/npm/l/@smoud/playable-sdk)](https://github.com/smoudjs/playable-sdk/blob/master/LICENSE)
 
 It's powerful, unified SDK that seamlessly integrates multiple ad network SDKs, including MRAID, Google, Facebook, Vungle, and many more. Designed for effortless playable ad development, it provides a standardized interface, ensuring compatibility, optimization, and easy deployment across various platforms. With `@smoud/playable-sdk`, you can streamline your workflow, maximize reach, and focus on crafting engaging interactive ads without worrying about SDK fragmentation. 🚀
 
@@ -167,7 +167,7 @@ See more details in [`GitHub repository.`](https://github.com/smoudjs/playable-s
 
 ### Custom Build Pipeline
 
-Before setting up a custom pipeline, consider using `@smoud/playable-scripts`. It provides an API to extend the standard build function and simplifies the process. See more details [here](https://github.com/smoudjs/playable-scripts).
+Before setting up a custom pipeline, consider using `@smoud/playable-scripts`. It provides an API to extend the standard build function and simplifies the process. See more details [here](https://github.com/smoudjs/playable-scripts?tab=readme-ov-file#api-reference).
 
 If you still prefer a fully custom build, you need to manage the following aspects yourself:
 
