@@ -330,20 +330,20 @@ sdk.off('eventName', [callback], [context]);
 
 #### Available Events
 
-| Event         | Parameters      | Description                                | Typical Usage            |
-| ------------- | --------------- | ------------------------------------------ | ------------------------ |
-| `init`        | -               | SDK initialization started                 | Setup loading screen     |
-| `boot`        | -               | Ad container is ready `pre` init callback  | Initialize core systems  |
-| `ready`       | -               | Ad container is ready `post` init callback | Start resource loading   |
-| `start`       | -               | Playable experience started                | Begin gameplay/animation |
-| `interaction` | `count`         | User interaction occurred                  | Track engagement         |
-| `resize`      | `width, height` | Container size changed                     | Update layout            |
-| `pause`       | -               | Playable entered pause state               | Pause gameplay           |
-| `resume`      | -               | Playable resumed from pause                | Resume gameplay          |
-| `volume`      | `level`         | Volume level changed (0-1)                 | Adjust audio             |
-| `retry`       | -               | Retry/restart triggered                    | Reset game state         |
-| `finish`      | -               | Playable marked as complete                | Show end screen          |
-| `install`     | -               | Install action triggered                   | Track conversion         |
+| Event         | Parameters      | Description                                       | Typical Usage            |
+| ------------- | --------------- | ------------------------------------------------- | ------------------------ |
+| `init`        | -               | DOM Content loaded and SDK initialization started | Setup loading screen     |
+| `boot`        | -               | Ad container is ready `pre` init callback         | Initialize core systems  |
+| `ready`       | -               | Ad container is ready `post` init callback        | Start resource loading   |
+| `start`       | -               | Playable experience started                       | Begin gameplay/animation |
+| `interaction` | `count`         | User interaction occurred                         | Track engagement         |
+| `resize`      | `width, height` | Container size changed                            | Update layout            |
+| `pause`       | -               | Playable entered pause state                      | Pause gameplay           |
+| `resume`      | -               | Playable resumed from pause                       | Resume gameplay          |
+| `volume`      | `level`         | Volume level changed (0-1)                        | Adjust audio             |
+| `retry`       | -               | Retry/restart triggered                           | Reset game state         |
+| `finish`      | -               | Playable marked as complete                       | Show end screen          |
+| `install`     | -               | Install action triggered                          | Track conversion         |
 
 ### Properties
 

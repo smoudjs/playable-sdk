@@ -60,184 +60,183 @@ function handleResume() {
   emitEvent('resume');
 }
 
-function mraidIsViewable(viewable: boolean) {
-  if ('mraid' !== AD_PROTOCOL) return;
-
-  if (viewable) {
-    if (sdk.isReady) {
-      handleResume();
-    } else {
-      if (AD_NETWORK == 'ironsource') {
-        const maxSize = mraid.getMaxSize();
-        sdk.maxWidth = Math.floor(maxSize.width);
-        sdk.maxHeight = Math.floor(maxSize.height);
-      }
-      bootAd();
-    }
-  } else {
-    handlePause();
-  }
-}
-
-function dapiIsViewable(event: { isViewable: boolean }) {
-  if ('dapi' !== AD_PROTOCOL) return;
-
-  if (event.isViewable) {
-    if (sdk.isReady) {
-      handleResume();
-    } else {
-      const screenSize = dapi.getScreenSize();
-      screenSize.width = Math.floor(screenSize.width);
-      screenSize.height = Math.floor(screenSize.height);
-      bootAd();
-    }
-  } else {
-    handlePause();
-  }
-}
-
 function fireResizeEvent(width: number, height: number) {
   handleResize(width, height);
 }
 
 function startMraidProtocol() {
   if ('mraid' !== AD_PROTOCOL) return;
+  if (isProtocolInitialized) return;
 
-  if (!isProtocolInitialized) {
-    mraid.removeEventListener('ready', startMraidProtocol);
+  mraid.removeEventListener('ready', startMraidProtocol);
 
-    mraid.addEventListener('viewableChange', function () {
-      const isViewable = mraid.isViewable();
-      mraidIsViewable(isViewable);
-    });
-
-    if (mraid.isViewable() || AD_NETWORK == 'adcolony') {
-      mraidIsViewable(true);
-    }
-
-    if (mraid.getAudioVolume) {
-      const isAudioEnabled = mraid.getAudioVolume();
-      if (isAudioEnabled) {
-        handleVolumeChange(1);
+  function mraidStateChanged(viewable: boolean) {
+    if (viewable) {
+      if (sdk.isReady) {
+        handleResume();
       } else {
-        handleVolumeChange(0);
+        const maxSize = mraid.getMaxSize();
+        sdk.maxWidth = Math.floor(maxSize.width);
+        sdk.maxHeight = Math.floor(maxSize.height);
+
+        bootAd();
       }
+    } else {
+      handlePause();
     }
-    mraid.addEventListener('audioVolumeChange', function (newVolume: number | null) {
-      if (newVolume !== null) {
-        if (newVolume > 0) {
-          // handleVolumeChange(newVolume / 100); // Need to double check if this is proper way
-          handleVolumeChange(1);
-        } else {
-          handleVolumeChange(0);
-        }
-      }
-    });
-
-    mraid.addEventListener('error', function (t, e) {
-      console.log('mraid error: ' + t + '   action: ' + e);
-    });
-
-    mraid.addEventListener('sizeChange', function () {
-      const maxSize = mraid.getMaxSize();
-      fireResizeEvent(maxSize.width, maxSize.height);
-    });
-
-    // mraid.addEventListener('stateChange', function (t) {});
-
-    isProtocolInitialized = true;
   }
-}
 
-function startDapiProtocol() {
-  if ('dapi' !== AD_PROTOCOL) return;
+  function isViewable() {
+    return mraid.isViewable() && 'hidden' !== mraid.getState();
+  }
 
-  if (!isProtocolInitialized) {
-    dapi.removeEventListener('ready', startDapiProtocol);
+  function stateChanged() {
+    mraidStateChanged(isViewable());
+  }
 
-    const isAudioEnabled = dapi.getAudioVolume();
+  mraid.addEventListener('viewableChange', stateChanged);
+  mraid.addEventListener('stateChange', stateChanged);
+
+  if (isViewable()) {
+    mraidStateChanged(true);
+  }
+
+  if (mraid.getAudioVolume) {
+    const isAudioEnabled = mraid.getAudioVolume();
     if (isAudioEnabled) {
       handleVolumeChange(1);
     } else {
       handleVolumeChange(0);
     }
-    dapi.addEventListener('audioVolumeChange', function (volume) {
-      const isAudioEnabled = !!volume;
-      if (isAudioEnabled) {
+  }
+  mraid.addEventListener('audioVolumeChange', function (newVolume: number | null) {
+    if (newVolume !== null) {
+      if (newVolume > 0) {
+        // handleVolumeChange(newVolume / 100); // Need to double check if this is proper way
         handleVolumeChange(1);
       } else {
         handleVolumeChange(0);
       }
-    });
-
-    dapi.addEventListener('adResized', function (event) {
-      const maxSize = dapi.getScreenSize();
-      fireResizeEvent(event.width || maxSize.width, event.height || maxSize.height);
-    });
-
-    if (dapi.isViewable()) {
-      dapiIsViewable({ isViewable: true });
     }
+  });
 
-    dapi.addEventListener('viewableChange', dapiIsViewable);
-    isProtocolInitialized = true;
+  mraid.addEventListener('error', function (t, e) {
+    console.log('mraid error: ' + t + '   action: ' + e);
+  });
+
+  mraid.addEventListener('sizeChange', function () {
+    const maxSize = mraid.getMaxSize();
+    fireResizeEvent(maxSize.width, maxSize.height);
+  });
+
+  // mraid.addEventListener('stateChange', function (t) {});
+
+  isProtocolInitialized = true;
+}
+
+function startDapiProtocol() {
+  if ('dapi' !== AD_PROTOCOL) return;
+  if (isProtocolInitialized) return;
+
+  function dapiIsViewable(event: { isViewable: boolean }) {
+    if (event.isViewable) {
+      if (sdk.isReady) {
+        handleResume();
+      } else {
+        const screenSize = dapi.getScreenSize();
+        screenSize.width = Math.floor(screenSize.width);
+        screenSize.height = Math.floor(screenSize.height);
+        bootAd();
+      }
+    } else {
+      handlePause();
+    }
   }
+
+  dapi.removeEventListener('ready', startDapiProtocol);
+
+  const isAudioEnabled = dapi.getAudioVolume();
+  if (isAudioEnabled) {
+    handleVolumeChange(1);
+  } else {
+    handleVolumeChange(0);
+  }
+  dapi.addEventListener('audioVolumeChange', function (volume) {
+    const isAudioEnabled = !!volume;
+    if (isAudioEnabled) {
+      handleVolumeChange(1);
+    } else {
+      handleVolumeChange(0);
+    }
+  });
+
+  dapi.addEventListener('adResized', function (event) {
+    const maxSize = dapi.getScreenSize();
+    fireResizeEvent(event.width || maxSize.width, event.height || maxSize.height);
+  });
+
+  if (dapi.isViewable()) {
+    dapiIsViewable({ isViewable: true });
+  }
+
+  dapi.addEventListener('viewableChange', dapiIsViewable);
+  isProtocolInitialized = true;
 }
 
 function startDefaultProtocol() {
-  if (!isProtocolInitialized) {
-    if ('mintegral' === AD_NETWORK) {
-      window.mintGameStart = function () {
-        handleResume();
-        handleResize(sdk.maxWidth, sdk.maxHeight);
-      };
-      window.mintGameClose = function () {
-        handlePause();
-      };
-    }
+  if (isProtocolInitialized) return;
 
-    document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'visible') {
-        if (sdk.isReady) {
-          handleResume();
-        } else {
-          bootAd();
-        }
-      } else {
-        handlePause();
-      }
-    });
-
-    function documentReady() {
-      if (document.visibilityState === 'visible') bootAd();
-    }
-
-    if (document.readyState === 'complete') {
-      documentReady();
-    } else {
-      window.addEventListener('load', documentReady);
-    }
-
-    window.addEventListener('resize', function () {
-      handleResize();
-    });
-
-    if ('tapjoy' === AD_NETWORK && isTapjoy()) {
-      const tapjoyApi = {
-        skipAd: function () {
-          try {
-            sdk.finish();
-          } catch (e) {
-            console.warn('Could not skip ad! | ' + e);
-          }
-        }
-      };
-
-      window.TJ_API.setPlayableAPI && window.TJ_API.setPlayableAPI(tapjoyApi);
-    }
-
-    isProtocolInitialized = true;
+  if ('mintegral' === AD_NETWORK) {
+    window.mintGameStart = function () {
+      handleResume();
+      handleResize(sdk.maxWidth, sdk.maxHeight);
+    };
+    window.mintGameClose = function () {
+      handlePause();
+    };
   }
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+      if (sdk.isReady) {
+        handleResume();
+      } else {
+        bootAd();
+      }
+    } else {
+      handlePause();
+    }
+  });
+
+  function documentIsReady() {
+    if (document.visibilityState === 'visible') bootAd();
+  }
+
+  if (document.readyState === 'complete') {
+    documentIsReady();
+  } else {
+    window.addEventListener('load', documentIsReady);
+  }
+
+  window.addEventListener('resize', function () {
+    handleResize();
+  });
+
+  if ('tapjoy' === AD_NETWORK && isTapjoy()) {
+    const tapjoyApi = {
+      skipAd: function () {
+        try {
+          sdk.finish();
+        } catch (e) {
+          console.warn('Could not skip ad! | ' + e);
+        }
+      }
+    };
+
+    window.TJ_API.setPlayableAPI && window.TJ_API.setPlayableAPI(tapjoyApi);
+  }
+
+  isProtocolInitialized = true;
 }
 
 function finishTapjoy(): void {
@@ -274,6 +273,21 @@ function registerTouchHandlers(): void {
     document.addEventListener('touchstart', onUserInteraction);
     isTouchEventRegistered = true;
   }
+}
+
+function initSDK() {
+  destinationUrl = /android/i.test(navigator.userAgent) ? GOOGLE_PLAY_URL : APP_STORE_URL;
+  ensureProtocol();
+
+  if ('mraid' === AD_PROTOCOL && isMraid()) {
+    mraid.getState() === 'loading' ? mraid.addEventListener('ready', startMraidProtocol) : startMraidProtocol();
+  } else if ('dapi' === AD_PROTOCOL && isDapi()) {
+    dapi.isReady() ? startDapiProtocol() : dapi.addEventListener('ready', startDapiProtocol);
+  } else {
+    startDefaultProtocol();
+  }
+
+  emitEvent('init');
 }
 
 /**
@@ -331,26 +345,9 @@ class sdk {
    */
   static init(callback?: InitCallbackType): void {
     if (isSDKInitialized) return;
-    destinationUrl = /android/i.test(navigator.userAgent) ? GOOGLE_PLAY_URL : APP_STORE_URL;
-    ensureProtocol();
-
     if (callback) initCallback = callback;
 
-    if ('mraid' === AD_PROTOCOL && isMraid()) {
-      if (mraid.getState() !== 'ready') {
-        mraid.addEventListener('ready', startMraidProtocol);
-      } else {
-        startMraidProtocol();
-      }
-    } else if ('dapi' === AD_PROTOCOL && isDapi()) {
-      window.addEventListener('load', function () {
-        dapi.isReady() ? startDapiProtocol() : dapi.addEventListener('ready', startDapiProtocol);
-      });
-    } else {
-      startDefaultProtocol();
-    }
-
-    emitEvent('init');
+    document.readyState === 'loading' ? window.addEventListener('DOMContentLoaded', initSDK) : initSDK();
     isSDKInitialized = true;
   }
 
