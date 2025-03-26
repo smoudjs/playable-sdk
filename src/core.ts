@@ -18,6 +18,7 @@ let isSDKInitialized: boolean = false;
 let isProtocolInitialized: boolean = false;
 let isForcePaused: boolean = false;
 let isInstallClicked: boolean = false;
+let actualVolume: number = 1;
 
 let initCallback: InitCallbackType = () => {};
 
@@ -41,15 +42,20 @@ function changeVolume(value: number) {
   fireVolumeChange(value);
 }
 
+function handleVolumeChange(value: number) {
+  actualVolume = value;
+  if (!sdk.isPaused) changeVolume(actualVolume);
+}
+
 function handlePause() {
-  fireVolumeChange(0);
+  changeVolume(0);
   sdk.isPaused = true;
   emitEvent('pause');
 }
 
 function handleResume() {
   if (isForcePaused) return;
-  fireVolumeChange(sdk.volume);
+  changeVolume(actualVolume);
   sdk.isPaused = false;
   emitEvent('resume');
 }
@@ -112,18 +118,18 @@ function startMraidProtocol() {
     if (mraid.getAudioVolume) {
       const isAudioEnabled = mraid.getAudioVolume();
       if (isAudioEnabled) {
-        changeVolume(1);
+        handleVolumeChange(1);
       } else {
-        changeVolume(0);
+        handleVolumeChange(0);
       }
     }
     mraid.addEventListener('audioVolumeChange', function (newVolume: number | null) {
       if (newVolume !== null) {
         if (newVolume > 0) {
-          // changeVolume(newVolume / 100); // Need to double check if this is proper way
-          changeVolume(1);
+          // handleVolumeChange(newVolume / 100); // Need to double check if this is proper way
+          handleVolumeChange(1);
         } else {
-          changeVolume(0);
+          handleVolumeChange(0);
         }
       }
     });
@@ -151,16 +157,16 @@ function startDapiProtocol() {
 
     const isAudioEnabled = dapi.getAudioVolume();
     if (isAudioEnabled) {
-      changeVolume(1);
+      handleVolumeChange(1);
     } else {
-      changeVolume(0);
+      handleVolumeChange(0);
     }
     dapi.addEventListener('audioVolumeChange', function (volume) {
       const isAudioEnabled = !!volume;
       if (isAudioEnabled) {
-        changeVolume(1);
+        handleVolumeChange(1);
       } else {
-        changeVolume(0);
+        handleVolumeChange(0);
       }
     });
 
@@ -192,18 +198,24 @@ function startDefaultProtocol() {
 
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible') {
-        handleResume();
+        if (sdk.isReady) {
+          handleResume();
+        } else {
+          bootAd();
+        }
       } else {
         handlePause();
       }
     });
 
+    function documentReady() {
+      if (document.visibilityState === 'visible') bootAd();
+    }
+
     if (document.readyState === 'complete') {
-      bootAd();
+      documentReady();
     } else {
-      window.addEventListener('load', () => {
-        bootAd();
-      });
+      window.addEventListener('load', documentReady);
     }
 
     window.addEventListener('resize', function () {
@@ -294,7 +306,7 @@ class sdk {
   static isFinished: boolean = false;
 
   /** Current volume level (0-1) */
-  static volume: number = 1;
+  static volume: number = actualVolume;
 
   /** Number of user interactions with the playable ad */
   static interactions: number = 0;
