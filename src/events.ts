@@ -33,7 +33,7 @@ export function onEvent(event: EventName, fn: Function, context?: any, once?: bo
 export function offEvent(event: EventName, fn?: Function, context?: any): void {
   const listeners = registeredEvents[event];
   if (!listeners) return;
-  var fnArray = listeners.list;
+  const fnArray = listeners.list;
 
   if (!fn) {
     fnArray.length = 0;
@@ -53,14 +53,14 @@ export function offEvent(event: EventName, fn?: Function, context?: any): void {
 }
 
 export function emitEvent(event: EventName, a1?: any, a2?: any, a3?: any): void {
-  var listeners = registeredEvents[event];
+  const listeners = registeredEvents[event];
   if (!listeners) return;
 
   const fnArray = listeners.list;
   const len = arguments.length;
   let fn, ctx;
 
-  for (var i = 0; i < fnArray.length; i += 3) {
+  for (let i = 0; i < fnArray.length; i += 3) {
     fn = fnArray[i];
     ctx = fnArray[i + 1];
 

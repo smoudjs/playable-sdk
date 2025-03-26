@@ -377,8 +377,9 @@ Get started quickly with our template projects:
 #### MRAID Networks
 
 - [MRAID 3.0](https://www.iab.com/wp-content/uploads/2017/07/MRAID_3.0_FINAL.pdf)
-- [IronSource - MRAID requirements](https://developers.is.com/ironsource-mobile/general/mraid-requirements/#step-1)
 - [IronSource - Interactive ad creative requirements](https://developers.is.com/ironsource-mobile/general/interactive-requirements/#step-1)
+- [IronSource - MRAID requirements](https://developers.is.com/ironsource-mobile/general/mraid-requirements/#step-1)
+- [IronSource - DAPI requirements](https://developers.is.com/ironsource-mobile/general/dapi-requirements/#step-1)
 - [Unity Ads Documentation](https://docs.unity.com/acquire/en-us/manual/playable-ads-specifications)
 - [Chartboost Integration](https://docs.chartboost.com/en/advertising/creatives/creative-assets/)
 
@@ -397,7 +398,7 @@ Get started quickly with our template projects:
 - [Vungle Creative QA](https://vungle.com/creative-verifier/)
 - [Facebook Playable Preview Tool](https://developers.facebook.com/tools/playable-preview/)
 - [Google HTML5 Validator](https://h5validator.appspot.com/adwords/asset)
-- [IronSource Integration Validation](https://developers.is.com/ironsource-mobile/general/test-suite/)
+- [IronSource - Submit an HTML asset for review](https://developers.is.com/ironsource-mobile/general/html-upload/)
 - [Mintegral Testing Tool](https://www.playturbo.com/review)
 
 ## Issues

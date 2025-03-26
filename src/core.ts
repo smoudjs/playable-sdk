@@ -32,19 +32,24 @@ function bootAd(): void {
   sdk.isReady = true;
 }
 
-function changeVolume(value: number) {
+function fireVolumeChange(value: number) {
   emitEvent('volume', value);
 }
 
+function changeVolume(value: number) {
+  sdk.volume = value;
+  fireVolumeChange(value);
+}
+
 function handlePause() {
-  changeVolume(0);
+  fireVolumeChange(0);
   sdk.isPaused = true;
   emitEvent('pause');
 }
 
 function handleResume() {
   if (isForcePaused) return;
-  changeVolume(sdk.volume);
+  fireVolumeChange(sdk.volume);
   sdk.isPaused = false;
   emitEvent('resume');
 }
@@ -75,7 +80,7 @@ function dapiIsViewable(event: { isViewable: boolean }) {
     if (sdk.isReady) {
       handleResume();
     } else {
-      var screenSize = dapi.getScreenSize();
+      const screenSize = dapi.getScreenSize();
       screenSize.width = Math.floor(screenSize.width);
       screenSize.height = Math.floor(screenSize.height);
       bootAd();
@@ -96,7 +101,7 @@ function startMraidProtocol() {
     mraid.removeEventListener('ready', startMraidProtocol);
 
     mraid.addEventListener('viewableChange', function () {
-      var isViewable = mraid.isViewable();
+      const isViewable = mraid.isViewable();
       mraidIsViewable(isViewable);
     });
 
@@ -104,10 +109,19 @@ function startMraidProtocol() {
       mraidIsViewable(true);
     }
 
+    if (mraid.getAudioVolume) {
+      const isAudioEnabled = mraid.getAudioVolume();
+      if (isAudioEnabled) {
+        changeVolume(1);
+      } else {
+        changeVolume(0);
+      }
+    }
     mraid.addEventListener('audioVolumeChange', function (newVolume: number | null) {
       if (newVolume !== null) {
         if (newVolume > 0) {
-          changeVolume(sdk.volume);
+          // changeVolume(newVolume / 100); // Need to double check if this is proper way
+          changeVolume(1);
         } else {
           changeVolume(0);
         }
@@ -119,7 +133,7 @@ function startMraidProtocol() {
     });
 
     mraid.addEventListener('sizeChange', function () {
-      var maxSize = mraid.getMaxSize();
+      const maxSize = mraid.getMaxSize();
       fireResizeEvent(maxSize.width, maxSize.height);
     });
 
@@ -135,18 +149,23 @@ function startDapiProtocol() {
   if (!isProtocolInitialized) {
     dapi.removeEventListener('ready', startDapiProtocol);
 
-    dapi.getAudioVolume();
+    const isAudioEnabled = dapi.getAudioVolume();
+    if (isAudioEnabled) {
+      changeVolume(1);
+    } else {
+      changeVolume(0);
+    }
     dapi.addEventListener('audioVolumeChange', function (volume) {
-      var isAudioEnabled = !!volume;
+      const isAudioEnabled = !!volume;
       if (isAudioEnabled) {
-        changeVolume(sdk.volume);
+        changeVolume(1);
       } else {
         changeVolume(0);
       }
     });
 
     dapi.addEventListener('adResized', function (event) {
-      var maxSize = dapi.getScreenSize();
+      const maxSize = dapi.getScreenSize();
       fireResizeEvent(event.width || maxSize.width, event.height || maxSize.height);
     });
 
@@ -192,7 +211,7 @@ function startDefaultProtocol() {
     });
 
     if ('tapjoy' === AD_NETWORK && isTapjoy()) {
-      var tapjoyApi = {
+      const tapjoyApi = {
         skipAd: function () {
           try {
             sdk.finish();
@@ -352,7 +371,7 @@ class sdk {
           buildID: BUILD_HASH
         });
       }
-
+      fireVolumeChange(sdk.volume);
       sdk.resize();
     }
   }
@@ -566,7 +585,7 @@ class sdk {
   }
 }
 
-window["console"].log(
+window['console'].log(
   `%c @smoud/playable-sdk %c v${sdk.version} `,
   'background: #007acc; color: #fff; font-size: 14px; padding: 4px 8px; border-top-left-radius: 4px; border-bottom-left-radius: 4px;',
   'background: #e1e4e8; color: #333; font-size: 14px; padding: 4px 8px; border-top-right-radius: 4px; border-bottom-right-radius: 4px;'

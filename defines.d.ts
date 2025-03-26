@@ -13,6 +13,7 @@ declare const mraid: {
   getMaxSize: () => { width: number; height: number };
   openStoreUrl: () => void;
   open: (url: string) => void;
+  getAudioVolume: () => number;
   preloadStore?: () => void;
 };
 
