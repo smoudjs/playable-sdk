@@ -72,13 +72,11 @@ function startMraidProtocol() {
 
   function mraidStateChanged(viewable: boolean) {
     if (viewable) {
-      if (sdk.isReady) {
-        handleResume();
-      } else {
+      handleResume();
+      if (!sdk.isReady) {
         const maxSize = mraid.getMaxSize();
         sdk.maxWidth = Math.floor(maxSize.width);
         sdk.maxHeight = Math.floor(maxSize.height);
-
         bootAd();
       }
     } else {
@@ -140,9 +138,8 @@ function startDapiProtocol() {
 
   function dapiIsViewable(event: { isViewable: boolean }) {
     if (event.isViewable) {
-      if (sdk.isReady) {
-        handleResume();
-      } else {
+      handleResume();
+      if (!sdk.isReady) {
         const screenSize = dapi.getScreenSize();
         screenSize.width = Math.floor(screenSize.width);
         screenSize.height = Math.floor(screenSize.height);
@@ -198,9 +195,8 @@ function startDefaultProtocol() {
 
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') {
-      if (sdk.isReady) {
-        handleResume();
-      } else {
+      handleResume();
+      if (!sdk.isReady && document.readyState === 'complete') {
         bootAd();
       }
     } else {
@@ -232,7 +228,6 @@ function startDefaultProtocol() {
         }
       }
     };
-
     window.TJ_API.setPlayableAPI && window.TJ_API.setPlayableAPI(tapjoyApi);
   }
 
