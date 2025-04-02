@@ -44,6 +44,7 @@ declare const FbPlayableAd: { onCTAClick: () => void };
 declare const ExitApi: { exit: () => void };
 
 declare const AD_NETWORK:
+  | 'preview'
   | 'applovin'
   | 'unity'
   | 'google'
