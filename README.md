@@ -39,6 +39,8 @@ It's powerful, unified SDK that seamlessly integrates multiple ad network SDKs, 
 - Chartboost
 - AdColony
 - MyTarget
+- Smadex
+- Adikteev
 
 ### Protocol Support
 
@@ -162,6 +164,8 @@ Supported **Ad Networks**:
 - `pangle`
 - `mytarget`
 - `liftoff`
+- `smadex`
+- `adikteev`
 
 See more details in [`GitHub repository.`](https://github.com/smoudjs/playable-scripts?tab=readme-ov-file#installation)
 
@@ -382,11 +386,13 @@ Get started quickly with our template projects:
 - [IronSource - DAPI requirements](https://developers.is.com/ironsource-mobile/general/dapi-requirements/#step-1)
 - [Unity Ads Documentation](https://docs.unity.com/acquire/en-us/manual/playable-ads-specifications)
 - [Chartboost Integration](https://docs.chartboost.com/en/advertising/creatives/creative-assets/)
+- [Adikteev specifications for external creatives](https://help.adikteev.com/hc/en-us/articles/10549028250130-Specifications-for-external-creatives)
 
 #### Proprietary Networks
 
 - [Google HTML5 / Playable Ads](https://support.google.com/google-ads/answer/9981650?hl=en)
 - [Meta (Facebook) Playable Ads](https://www.facebook.com/business/help/412951382532338)
+- [Moloco Requirements](https://help.moloco.com/hc/en-us/articles/24124525963799-Playable-and-Interactive-End-Card-IEC-creative-guide)
 - [Mintegral Integration](https://www.playturbo.com/review/doc)
 
 ### Testing Tools

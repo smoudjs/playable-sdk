@@ -8,7 +8,8 @@ import {
   isTapjoy,
   isMintegral,
   isFacebook,
-  isTikTok
+  isTikTok,
+  isSmadex
 } from './protocols';
 
 type InitCallbackType = (maxWidth: number, maxHeight: number) => void;
@@ -469,6 +470,8 @@ class sdk {
       NUC.trigger.convert(destinationUrl);
     } else if ('facebook' == AD_NETWORK && isFacebook()) {
       FbPlayableAd.onCTAClick();
+    } else if ('smadex' == AD_NETWORK && isSmadex()) {
+      smxTracking.redirect();
     } else if ('vungle' == AD_NETWORK) {
       parent.postMessage('download', '*');
     } else if ('google' == AD_NETWORK && isGoogle()) {

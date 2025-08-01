@@ -9,6 +9,7 @@ const GOOGLE = uid++;
 const MINTEGRAL = uid++;
 const TAPJOY = uid++;
 const TIKTOK = uid++;
+const SMADEX = uid++;
 
 let actualProtocol = NONE;
 
@@ -26,6 +27,10 @@ export function isNucleo(): boolean {
 
 export function isFacebook(): boolean {
   return actualProtocol === FACEBOOK;
+}
+
+export function isSmadex(): boolean {
+  return actualProtocol === SMADEX;
 }
 
 export function isGoogle(): boolean {
@@ -69,5 +74,9 @@ export function ensureProtocol(): void {
     if (window.TJ_API) actualProtocol = TAPJOY;
   } else if ('tiktok' === AD_NETWORK) {
     if (window.openAppStore) actualProtocol = TIKTOK;
+  } else if ('smadex' === AD_NETWORK) {
+    try {
+      if (smxTracking) actualProtocol = SMADEX;
+    } catch (error) {}
   }
 }

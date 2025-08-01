@@ -41,6 +41,7 @@ declare const NUC: {
 };
 
 declare const FbPlayableAd: { onCTAClick: () => void };
+declare const smxTracking: { redirect: () => void };
 declare const ExitApi: { exit: () => void };
 
 declare const AD_NETWORK:
@@ -61,7 +62,10 @@ declare const AD_NETWORK:
   | 'chartboost'
   | 'pangle'
   | 'mytarget'
-  | 'liftoff';
+  | 'liftoff'
+  | 'smadex'
+  | 'adikteev';
+
 declare const AD_PROTOCOL: 'mraid' | 'dapi' | 'nucleo' | 'none';
 declare const GOOGLE_PLAY_URL: string;
 declare const APP_STORE_URL: string;
