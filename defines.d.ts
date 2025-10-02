@@ -64,7 +64,9 @@ declare const AD_NETWORK:
   | 'mytarget'
   | 'liftoff'
   | 'smadex'
-  | 'adikteev';
+  | 'adikteev'
+  | 'bigabid'
+  | 'inmobi';
 
 declare const AD_PROTOCOL: 'mraid' | 'dapi' | 'nucleo' | 'none';
 declare const GOOGLE_PLAY_URL: string;
@@ -91,6 +93,9 @@ interface Window {
     setPlayableAPI: Function;
     click: Function;
   };
+
+  BIGABID_BIDTIMEMACROS?: Record<string, string>
+  INMOBI_DSPMACROS?: Record<string, string>
 
   openAppStore: Function;
 }

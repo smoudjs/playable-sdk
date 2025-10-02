@@ -11,6 +11,7 @@ import {
   isTikTok,
   isSmadex
 } from './protocols';
+import { initTrackingProtocols } from './tracking';
 
 type InitCallbackType = (maxWidth: number, maxHeight: number) => void;
 
@@ -342,6 +343,7 @@ class sdk {
   static init(callback?: InitCallbackType): void {
     if (isSDKInitialized) return;
     if (callback) initCallback = callback;
+    initTrackingProtocols();
 
     document.readyState === 'loading' ? window.addEventListener('DOMContentLoaded', initSDK) : initSDK();
     isSDKInitialized = true;

@@ -41,6 +41,8 @@ It's powerful, unified SDK that seamlessly integrates multiple ad network SDKs, 
 - MyTarget
 - Smadex
 - Adikteev
+- Bigabid
+- inMobi
 
 ### Protocol Support
 
@@ -166,6 +168,8 @@ Supported **Ad Networks**:
 - `liftoff`
 - `smadex`
 - `adikteev`
+- `bigabid`
+- `inmobi`
 
 See more details in [`GitHub repository.`](https://github.com/smoudjs/playable-scripts?tab=readme-ov-file#installation)
 
