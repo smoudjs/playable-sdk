@@ -441,15 +441,10 @@ class sdk {
    */
   static install(): void {
     if (!sdk.isFinished) {
-      sdk.isFinished = true;
-
       let timeout = 0;
-      if ('tapjoy' === AD_NETWORK && isTapjoy()) {
-        finishTapjoy();
-        timeout = 300;
-      }
+      if ('tapjoy' === AD_NETWORK) timeout = 300;
 
-      emitEvent('finish');
+      sdk.finish();
 
       setTimeout(function () {
         sdk.install();
