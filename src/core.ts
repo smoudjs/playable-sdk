@@ -125,10 +125,17 @@ function startMraidProtocol() {
     console.log('mraid error: ' + t + '   action: ' + e);
   });
 
-  mraid.addEventListener('sizeChange', function () {
-    const maxSize = mraid.getMaxSize();
-    fireResizeEvent(maxSize.width, maxSize.height);
-  });
+  if (AD_NETWORK === 'unity') {
+    window.addEventListener('resize', function () {
+      const maxSize = mraid.getMaxSize();
+      fireResizeEvent(maxSize.width, maxSize.height);
+    });
+  } else {
+    mraid.addEventListener('sizeChange', function () {
+      const maxSize = mraid.getMaxSize();
+      fireResizeEvent(maxSize.width, maxSize.height);
+    });
+  }
 
   // mraid.addEventListener('stateChange', function (t) {});
 
