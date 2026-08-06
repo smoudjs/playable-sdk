@@ -74,11 +74,18 @@ describeVungle('Vungle lifecycle', () => {
     Object.defineProperty(document, 'visibilityState', { configurable: true, value: 'hidden' });
     const sdk = loadSDK();
     const initCallback = jest.fn();
+    const pauseListener = jest.fn();
+    sdk.on('pause', pauseListener);
 
     sdk.init(initCallback);
 
     expect(initCallback).toHaveBeenCalledTimes(1);
     expect(sdk.isReady).toBe(true);
     expect(sdk.isPaused).toBe(true);
+    expect(pauseListener).not.toHaveBeenCalled();
+
+    sdk.start();
+
+    expect(pauseListener).toHaveBeenCalledTimes(1);
   });
 });

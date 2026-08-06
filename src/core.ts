@@ -218,8 +218,11 @@ function startDefaultProtocol() {
   function documentIsReady() {
     const isVisible = document.visibilityState === 'visible';
     if (isVisible || AD_NETWORK === 'vungle') {
+      if (!isVisible) {
+        sdk.isPaused = true;
+        sdk.volume = 0;
+      }
       bootAd();
-      if (!isVisible) handlePause();
     }
   }
 
@@ -393,6 +396,10 @@ class sdk {
       }
       fireVolumeChange(sdk.volume);
       sdk.resize();
+    }
+
+    if ('vungle' === AD_NETWORK && document.visibilityState !== 'visible') {
+      handlePause();
     }
   }
 
