@@ -215,7 +215,11 @@ function startDefaultProtocol() {
   });
 
   function documentIsReady() {
-    if (document.visibilityState === 'visible') bootAd();
+    const isVisible = document.visibilityState === 'visible';
+    if (isVisible || AD_NETWORK === 'vungle') {
+      bootAd();
+      if (!isVisible) handlePause();
+    }
   }
 
   if (document.readyState === 'complete') {
@@ -402,6 +406,7 @@ class sdk {
    * @fires finish When the playable ad is marked as finished
    */
   static finish(): void {
+    if (sdk.isFinished) return;
     sdk.isFinished = true;
 
     if ('tapjoy' === AD_NETWORK && isTapjoy()) {
@@ -443,11 +448,11 @@ class sdk {
    * // Call when user wants to install
    * installButton.onclick = () => sdk.install();
    *
-   * @fires finish If the ad hasn't been marked as finished
+   * @fires finish If the ad hasn't been marked as finished, except on Vungle
    * @fires install When the install action is triggered
    */
   static install(): void {
-    if (!sdk.isFinished) {
+    if (!sdk.isFinished && 'vungle' !== AD_NETWORK) {
       let timeout = 0;
       if ('tapjoy' === AD_NETWORK) timeout = 300;
 

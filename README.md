@@ -99,6 +99,10 @@ sdk.finish();
 installButton.onclick = () => sdk.install();
 ```
 
+For Vungle, completion and download are separate lifecycle actions. Call
+`sdk.finish()` when the experience actually completes, then call `sdk.install()`
+only when the user requests the store download.
+
 ## Build
 
 ### @smoud/playable-scripts
@@ -320,6 +324,10 @@ The SDK provides a comprehensive set of functions to manage the playable ad life
    // Trigger install/store redirect
    sdk.install();
    ```
+
+   Vungle does not implicitly finish the playable when `sdk.install()` is
+   called. Emit completion explicitly at the end-card transition with
+   `sdk.finish()`.
 
 ### Event System
 
