@@ -29,6 +29,17 @@ describeVungle('Vungle lifecycle', () => {
     expect(postMessage).toHaveBeenCalledWith('complete', '*');
   });
 
+  test('emits completion after legacy code mutates the public finished flag', () => {
+    const postMessage = jest.spyOn(window.parent, 'postMessage').mockImplementation(() => {});
+    const sdk = loadSDK();
+
+    sdk.isFinished = true;
+    sdk.finish();
+
+    expect(postMessage).toHaveBeenCalledTimes(1);
+    expect(postMessage).toHaveBeenCalledWith('complete', '*');
+  });
+
   test('does not complete an unfinished playable on install', () => {
     const postMessage = jest.spyOn(window.parent, 'postMessage').mockImplementation(() => {});
     const sdk = loadSDK();

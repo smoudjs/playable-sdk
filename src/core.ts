@@ -21,6 +21,7 @@ let isSDKInitialized: boolean = false;
 let isProtocolInitialized: boolean = false;
 let isForcePaused: boolean = false;
 let isInstallClicked: boolean = false;
+let isFinishEmitted: boolean = false;
 let actualVolume: number = 1;
 
 let initCallback: InitCallbackType = () => {};
@@ -406,7 +407,8 @@ class sdk {
    * @fires finish When the playable ad is marked as finished
    */
   static finish(): void {
-    if (sdk.isFinished) return;
+    if (isFinishEmitted) return;
+    isFinishEmitted = true;
     sdk.isFinished = true;
 
     if ('tapjoy' === AD_NETWORK && isTapjoy()) {
