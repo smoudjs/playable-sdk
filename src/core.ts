@@ -402,6 +402,7 @@ class sdk {
    * @fires finish When the playable ad is marked as finished
    */
   static finish(): void {
+    if ('vungle' === AD_NETWORK && sdk.isFinished) return;
     sdk.isFinished = true;
 
     if ('tapjoy' === AD_NETWORK && isTapjoy()) {
@@ -447,7 +448,7 @@ class sdk {
    * @fires install When the install action is triggered
    */
   static install(): void {
-    if (!sdk.isFinished) {
+    if (!sdk.isFinished && 'vungle' !== AD_NETWORK) {
       let timeout = 0;
       if ('tapjoy' === AD_NETWORK) timeout = 300;
 
