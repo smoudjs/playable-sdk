@@ -1,7 +1,7 @@
 import { sdk } from './core';
 
 export function initTrackingProtocols(): void {
-  if (AD_NETWORK === 'bigabid' || AD_NETWORK === 'inmobi') {
+  if (AD_NETWORK === 'bigabid' || AD_NETWORK === 'inmobi' || AD_NETWORK === 'remerge') {
     function trackURL(url: string): void {
       if (url) {
         const trackingPixel = new Image();
@@ -45,6 +45,24 @@ export function initTrackingProtocols(): void {
         setTimeout(() => trackInMobiEvent('Spent_20_Seconds'), 20000);
         setTimeout(() => trackInMobiEvent('Spent_25_Seconds'), 25000);
         setTimeout(() => trackInMobiEvent('Spent_30_Seconds'), 30000);
+      });
+    } else if (AD_NETWORK === 'remerge') {
+      function trackRemergeEvent(event: string): void {
+        if (window.REMERGE_BIDTIMEMACROS && window.REMERGE_BIDTIMEMACROS[event])
+          trackURL(window.REMERGE_BIDTIMEMACROS[event]);
+      }
+
+      sdk.once('boot', () => trackRemergeEvent('ready'));
+      sdk.once('start', () => trackRemergeEvent('impression'));
+      sdk.once('interaction', () => trackRemergeEvent('engagement'));
+      sdk.once('install', () => trackRemergeEvent('click'));
+      sdk.on('error', (message: string, action: string) => {
+        if (window.REMERGE_BIDTIMEMACROS && window.REMERGE_BIDTIMEMACROS.error)
+          trackURL(
+            window.REMERGE_BIDTIMEMACROS.error
+              .replace(/\{DOMAIN\}/g, encodeURIComponent(action || ''))
+              .replace(/\{ERR_MSG\}/g, encodeURIComponent(message || ''))
+          );
       });
     }
   }

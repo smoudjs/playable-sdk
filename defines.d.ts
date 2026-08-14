@@ -67,7 +67,8 @@ declare const AD_NETWORK:
   | 'smadex'
   | 'adikteev'
   | 'bigabid'
-  | 'inmobi';
+  | 'inmobi'
+  | 'remerge';
 
 declare const AD_PROTOCOL: 'mraid' | 'dapi' | 'nucleo' | 'none';
 declare const GOOGLE_PLAY_URL: string;
@@ -97,6 +98,7 @@ interface Window {
 
   BIGABID_BIDTIMEMACROS?: Record<string, string>
   INMOBI_DSPMACROS?: Record<string, string>
+  REMERGE_BIDTIMEMACROS?: Record<string, string>
 
   openAppStore: Function;
 }

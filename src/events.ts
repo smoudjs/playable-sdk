@@ -10,7 +10,8 @@ export type EventName =
   | 'volume'
   | 'retry'
   | 'finish'
-  | 'install';
+  | 'install'
+  | 'error';
 
 type RegisteredEvent = any[];
 

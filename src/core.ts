@@ -121,8 +121,9 @@ function startMraidProtocol() {
     }
   });
 
-  mraid.addEventListener('error', function (t, e) {
-    console.log('mraid error: ' + t + '   action: ' + e);
+  mraid.addEventListener('error', function (message, action) {
+    console.log('mraid error: ' + message + '   action: ' + action);
+    emitEvent('error', message, action);
   });
 
   if (AD_NETWORK === 'unity') {

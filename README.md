@@ -43,6 +43,7 @@ It's powerful, unified SDK that seamlessly integrates multiple ad network SDKs, 
 - Adikteev
 - Bigabid
 - inMobi
+- Remerge
 
 ### Protocol Support
 
@@ -170,6 +171,7 @@ Supported **Ad Networks**:
 - `adikteev`
 - `bigabid`
 - `inmobi`
+- `remerge`
 
 See more details in [`GitHub repository.`](https://github.com/smoudjs/playable-scripts?tab=readme-ov-file#installation)
 
@@ -352,6 +354,7 @@ sdk.off('eventName', [callback], [context]);
 | `retry`       | -               | Retry/restart triggered                           | Reset game state         |
 | `finish`      | -               | Playable marked as complete                       | Show end screen          |
 | `install`     | -               | Install action triggered                          | Track conversion         |
+| `error`       | `message, action` | Ad network protocol reported an error           | Log/report failures      |
 
 ### Properties
 
