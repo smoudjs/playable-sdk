@@ -469,7 +469,10 @@ class sdk {
 
     emitEvent('install');
 
-    if ('mraid' === AD_PROTOCOL && isMraid()) {
+    if ('tencent' === AD_NETWORK && window.TencentGDT && window.TencentGDT.clickOpen) {
+      // Triggers the native platform download or redirect hook
+      window.TencentGDT.clickOpen();
+    } else if ('mraid' === AD_PROTOCOL && isMraid()) {
       mraid.open(destinationUrl);
     } else if ('dapi' === AD_PROTOCOL && isDapi()) {
       dapi.openStoreUrl();

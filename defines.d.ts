@@ -68,7 +68,10 @@ declare const AD_NETWORK:
   | 'adikteev'
   | 'bigabid'
   | 'inmobi'
-  | 'remerge';
+  | 'remerge'
+  | 'tencent'
+  | 'youappi'
+  | 'aarki';
 
 declare const AD_PROTOCOL: 'mraid' | 'dapi' | 'nucleo' | 'none';
 declare const GOOGLE_PLAY_URL: string;
@@ -94,6 +97,11 @@ interface Window {
     setPlayableBuild: Function;
     setPlayableAPI: Function;
     click: Function;
+  };
+
+  // Tencent functions
+  TencentGDT?: {
+    clickOpen?: Function;
   };
 
   BIGABID_BIDTIMEMACROS?: Record<string, string>

@@ -44,6 +44,9 @@ It's powerful, unified SDK that seamlessly integrates multiple ad network SDKs, 
 - Bigabid
 - inMobi
 - Remerge
+- Tencent
+- YouAppi
+- Aarki
 
 ### Protocol Support
 
@@ -172,6 +175,9 @@ Supported **Ad Networks**:
 - `bigabid`
 - `inmobi`
 - `remerge`
+- `tencent`
+- `youappi`
+- `aarki`
 
 See more details in [`GitHub repository.`](https://github.com/smoudjs/playable-scripts?tab=readme-ov-file#installation)
 
