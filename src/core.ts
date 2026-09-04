@@ -13,6 +13,7 @@ import {
   isSnapchat
 } from './protocols';
 import { initTrackingProtocols } from './tracking';
+import { registerInteractionHandlers, registerMoveHandler } from './interaction';
 
 type InitCallbackType = (maxWidth: number, maxHeight: number) => void;
 
@@ -260,27 +261,6 @@ function handleResize(width?: number, height?: number) {
   emitEvent('resize', sdk.maxWidth, sdk.maxHeight);
 }
 
-let isListeningToTouchEvents = false;
-let isTouchEventRegistered = false;
-function onUserInteraction(event: Event): void {
-  if (typeof TouchEvent !== 'undefined' && event instanceof TouchEvent) {
-    isListeningToTouchEvents = true;
-  }
-
-  if (isListeningToTouchEvents && event instanceof MouseEvent) return;
-
-  sdk.interactions += 1;
-  emitEvent('interaction', sdk.interactions);
-}
-
-function registerTouchHandlers(): void {
-  if (!isTouchEventRegistered) {
-    document.addEventListener('mousedown', onUserInteraction);
-    document.addEventListener('touchstart', onUserInteraction);
-    isTouchEventRegistered = true;
-  }
-}
-
 function initSDK() {
   destinationUrl = /android/i.test(navigator.userAgent) ? GOOGLE_PLAY_URL : APP_STORE_URL;
   ensureProtocol();
@@ -374,7 +354,7 @@ class sdk {
     sdk.isStarted = true;
 
     emitEvent('start');
-    registerTouchHandlers();
+    registerInteractionHandlers();
 
     if ('mintegral' === AD_NETWORK && isMintegral()) {
       sdk.resize();
@@ -564,6 +544,7 @@ class sdk {
    * }, gameInstance);
    */
   static on(event: EventName, fn: Function, context?: any): void {
+    if (event === 'pointermove') registerMoveHandler();
     onEvent(event, fn, context);
   }
 
@@ -581,6 +562,7 @@ class sdk {
    * });
    */
   static once(event: EventName, fn: Function, context?: any): void {
+    if (event === 'pointermove') registerMoveHandler();
     onEvent(event, fn, context, true);
   }
 

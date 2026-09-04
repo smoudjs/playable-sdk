@@ -353,6 +353,9 @@ sdk.off('eventName', [callback], [context]);
 | `ready`       | -               | Ad container is ready `post` init callback        | Start resource loading   |
 | `start`       | -               | Playable experience started                       | Begin gameplay/animation |
 | `interaction` | `count`         | User interaction occurred                         | Track engagement         |
+| `pointerdown` | `x, y, event`   | Mouse/touch pressed (unified, no duplicates)      | Start drag / tap         |
+| `pointermove` | `x, y, event`   | Mouse/touch moved while pressed                   | Update drag              |
+| `pointerup`   | `x, y, event`   | Mouse/touch released or cancelled                 | End drag / tap           |
 | `resize`      | `width, height` | Container size changed                            | Update layout            |
 | `pause`       | -               | Playable entered pause state                      | Pause gameplay           |
 | `resume`      | -               | Playable resumed from pause                       | Resume gameplay          |
