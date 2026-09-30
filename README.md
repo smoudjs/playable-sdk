@@ -46,7 +46,9 @@ It's powerful, unified SDK that seamlessly integrates multiple ad network SDKs, 
 - Remerge
 - Tencent
 - YouAppi
+- DT Exchange
 - Aarki
+- Bidease
 
 ### Protocol Support
 
@@ -177,7 +179,9 @@ Supported **Ad Networks**:
 - `remerge`
 - `tencent`
 - `youappi`
+- `digitalturbine`
 - `aarki`
+- `bidease`
 
 See more details in [`GitHub repository.`](https://github.com/smoudjs/playable-scripts?tab=readme-ov-file#installation)
 

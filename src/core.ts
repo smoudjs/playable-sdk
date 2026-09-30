@@ -366,6 +366,8 @@ class sdk {
           orientation: this.isLandscape ? 'landscape' : 'portrait',
           buildID: BUILD_HASH
         });
+      } else if ('bidease' === AD_NETWORK && window.initGame) {
+        window.initGame();
       }
       fireVolumeChange(sdk.volume);
       sdk.resize();
@@ -452,6 +454,9 @@ class sdk {
     if ('tencent' === AD_NETWORK && window.TencentGDT && window.TencentGDT.clickOpen) {
       // Triggers the native platform download or redirect hook
       window.TencentGDT.clickOpen();
+    } else if ('bidease' === AD_NETWORK && window.trackClick) {
+      // Bidease handles the store click-out itself; mraid.open() / window.open() must not be used
+      window.trackClick();
     } else if ('mraid' === AD_PROTOCOL && isMraid()) {
       mraid.open(destinationUrl);
     } else if ('dapi' === AD_PROTOCOL && isDapi()) {

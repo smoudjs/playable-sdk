@@ -71,7 +71,9 @@ declare const AD_NETWORK:
   | 'remerge'
   | 'tencent'
   | 'youappi'
-  | 'aarki';
+  | 'digitalturbine'
+  | 'aarki'
+  | 'bidease';
 
 declare const AD_PROTOCOL: 'mraid' | 'dapi' | 'nucleo' | 'none';
 declare const GOOGLE_PLAY_URL: string;
@@ -103,6 +105,10 @@ interface Window {
   TencentGDT?: {
     clickOpen?: Function;
   };
+
+  // Bidease functions
+  initGame?: Function;
+  trackClick?: Function;
 
   BIGABID_BIDTIMEMACROS?: Record<string, string>
   INMOBI_DSPMACROS?: Record<string, string>
