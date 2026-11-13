@@ -2,7 +2,7 @@
 
 [![npm version](https://img.shields.io/npm/v/@smoud/playable-sdk)](https://www.npmjs.com/package/@smoud/playable-sdk)
 [![npm downloads](https://badgen.net/npm/dw/@smoud/playable-sdk)](https://www.npmjs.com/package/@smoud/playable-sdk)
-[![build size](https://badgen.net/bundlephobia/min/@smoud/playable-sdk)](https://www.npmjs.com/package/@smoud/playable-sdk)
+[![build size](https://deno.bundlejs.com/badge?q=@smoud/playable-sdk)](https://bundlejs.com/?q=@smoud/playable-sdk)
 [![DeepScan grade](https://deepscan.io/api/teams/19616/projects/29066/branches/935410/badge/grade.svg)](https://github.com/smoudjs/playable-sdk)
 [![License](https://img.shields.io/npm/l/@smoud/playable-sdk)](https://github.com/smoudjs/playable-sdk/blob/master/LICENSE)
 
@@ -49,6 +49,7 @@ It's powerful, unified SDK that seamlessly integrates multiple ad network SDKs, 
 - DT Exchange
 - Aarki
 - Bidease
+- RevX
 
 ### Protocol Support
 
@@ -182,6 +183,7 @@ Supported **Ad Networks**:
 - `digitalturbine`
 - `aarki`
 - `bidease`
+- `revx`
 
 See more details in [`GitHub repository.`](https://github.com/smoudjs/playable-scripts?tab=readme-ov-file#installation)
 
@@ -414,6 +416,7 @@ Get started quickly with our template projects:
 - [Meta (Facebook) Playable Ads](https://www.facebook.com/business/help/412951382532338)
 - [Moloco Requirements](https://help.moloco.com/hc/en-us/articles/24124525963799-Playable-and-Interactive-End-Card-IEC-creative-guide)
 - [Mintegral Integration](https://www.playturbo.com/review/doc)
+- [RevX Playable Requirements](https://docs.revx.io/General-Information/playable_requirements_1741786018893.md)
 
 ### Testing Tools
 

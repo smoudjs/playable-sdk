@@ -73,7 +73,8 @@ declare const AD_NETWORK:
   | 'youappi'
   | 'digitalturbine'
   | 'aarki'
-  | 'bidease';
+  | 'bidease'
+  | 'revx';
 
 declare const AD_PROTOCOL: 'mraid' | 'dapi' | 'nucleo' | 'none';
 declare const GOOGLE_PLAY_URL: string;
@@ -109,6 +110,9 @@ interface Window {
   // Bidease functions
   initGame?: Function;
   trackClick?: Function;
+
+  // RevX functions
+  redirect?: Function;
 
   BIGABID_BIDTIMEMACROS?: Record<string, string>
   INMOBI_DSPMACROS?: Record<string, string>

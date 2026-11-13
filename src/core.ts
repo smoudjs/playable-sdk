@@ -457,6 +457,8 @@ class sdk {
     } else if ('bidease' === AD_NETWORK && window.trackClick) {
       // Bidease handles the store click-out itself; mraid.open() / window.open() must not be used
       window.trackClick();
+    } else if ('revx' === AD_NETWORK && window.redirect) {
+      window.redirect();
     } else if ('mraid' === AD_PROTOCOL && isMraid()) {
       mraid.open(destinationUrl);
     } else if ('dapi' === AD_PROTOCOL && isDapi()) {
